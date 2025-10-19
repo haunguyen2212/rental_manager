@@ -66,6 +66,7 @@
 
 .select2-container--bootstrap-5 .select2-selection {
   border: 1px solid #DFE5EF !important;
+  height: 38.6px !important;
 }
 
 .is-invalid+.select2-container--bootstrap-5 .select2-selection {
@@ -75,6 +76,25 @@
 .select2-container--bootstrap-5.select2-container--focus .select2-selection, .select2-container--bootstrap-5.select2-container--open .select2-selection {
     border-color: #86b7fe !important;
     box-shadow: none !important;
+}
+
+.select2-container--bootstrap-5 .select2-selection{
+  font-size: 0.875rem !important;
+}
+
+.select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered{
+  color: #5A6A85 !important;
+}
+
+.jconfirm .jconfirm-cell {
+  vertical-align: top !important;
+}
+.jconfirm .jconfirm-box {
+  margin-top: 0px !important;
+}
+
+.modal-content {
+  border-radius: .3rem !important;
 }
 
 @media (min-width: 768px) {

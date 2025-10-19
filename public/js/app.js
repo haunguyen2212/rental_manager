@@ -3,17 +3,35 @@ const APP = {}
 $(function(){
     'use strict'
 
+    APP.loading = function () {
+        $('#loader-wrapper').show();
+    }
+
+    APP.loaded = function () {
+        $('#loader-wrapper').hide();
+    }
+
+    APP.isLoading = function () {
+        return $('#loader-wrapper').is(':visible');
+    };
+
     APP.getFormData = function ($form) {
         let formData = new FormData();
         let arr = $form.serializeArray();
         for(let i = 0; i < arr.length; i++){
             formData.append(arr[i].name, arr[i].value);
         }
+        $form.find('input[type="file"]').each(function () {
+            if (this.files.length > 0) {
+                formData.append(this.name, this.files[0]);
+            }
+        });
         return formData;
     }
 
     APP.linkButton = function () {
         $('button.link').on('click', function(){
+            APP.loading();
             let url = $(this).attr('data-url');
             if(url){
                 window.location.href = url;
@@ -45,19 +63,27 @@ $(function(){
                 if (typeof errorCallback === 'function') {
                     errorCallback(xhr);
                 } else {
-                    console.error('Ajax Error:', xhr);
+                    APP.alertDanger(xhr.responseJSON?.message ?? 'Có lỗi xảy ra, vui lòng thử lại sao');
+                    if(APP.isLoading()){
+                        APP.loaded();
+                    }
                 }
             }
         });
     }
 
     APP.select2 = function () {
-        $('.select2').select2({
-            theme: 'bootstrap-5',
-            allowClear: false,
-            width: '100%'
+        $('.select2').each(function () {
+            const $parentModal = $(this).closest('.modal');
+            
+            $(this).select2({
+                theme: 'bootstrap-5',
+                allowClear: false,
+                width: '100%',
+                dropdownParent: $parentModal.length ? $parentModal : $(document.body)
+            });
         });
-    }
+    };
 
     APP.setCookie = function (name, value, days = 7) {
         let expires = "";
@@ -115,6 +141,30 @@ $(function(){
         return values;
     }
 
+    APP.search = function($form) {
+        if ($form.length === 0) return;
+        const action = $form.attr('action') || '';
+        const params = [];
+
+        $form.find('input, select, textarea').each(function() {
+            const $el = $(this);
+            const name = $el.attr('name');
+            const value = $el.val();
+
+            if (!name || value === null || value === undefined || value === '') return;
+
+            params.push(`${encodeURIComponent(name)}=${encodeURIComponent(value)}`);
+        });
+
+        let newAction = action.split('?')[0];
+        if (params.length > 0) {
+            newAction += '?' + params.join('&');
+        }
+
+        window.location.href = newAction;
+    };
+
+
     APP.validate = function($form, errors) {
         $form.find('.is-invalid').removeClass('is-invalid');
         $form.find('.invalid-feedback').remove();
@@ -135,10 +185,123 @@ $(function(){
         });
     };
 
-    APP.alertDanger = function (message) {
-        $('#alert-error').removeClass('d-none');
-        $('#alert-error').find('.message-text').html(message || 'Có lỗi xảy ra, thử lại sau');
+    APP.alertSuccess = function(message, container = '#msg') {
+        let $container = $(container);
+        if ($container.length === 0) {
+            return;
+        }
+        let alertHtml = `
+            <div class="alert customize-alert alert-dismissible text-success alert-light-success bg-success-subtle fade show remove-close-icon" 
+                id="alert-success" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <div class="d-flex align-items-center me-3 me-md-0">
+                    <i class="ti ti-info-circle fs-5 me-2 text-success"></i>
+                    <span class="message-text">${message}</span>
+                </div>
+            </div>
+        `;
+        $container.html(alertHtml);
+    };
+
+    APP.alertDanger = function(message, container = '#msg') {
+        let $container = $(container);
+        if ($container.length === 0) {
+            return;
+        }
+        let alertHtml = `
+            <div class="alert customize-alert alert-dismissible alert-light-danger bg-danger-subtle text-danger fade show remove-close-icon" 
+                id="alert-error" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <div class="d-flex align-items-center me-3 me-md-0">
+                    <i class="ti ti-info-circle fs-5 me-2 text-danger"></i>
+                    <span class="message-text">${message}</span>
+                </div>
+            </div>
+        `;
+        $container.html(alertHtml);
+    };
+
+    APP.alertWarning = function(message, container = '#msg') {
+        let $container = $(container);
+        if ($container.length === 0) {
+            return;
+        }
+        let alertHtml = `
+            <div class="alert customize-alert alert-dismissible alert-light-warning bg-warning-subtle text-warning fade show remove-close-icon" 
+                id="alert-warning" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <div class="d-flex align-items-center me-3 me-md-0">
+                    <i class="ti ti-alert-triangle fs-5 me-2 text-warning"></i>
+                    <span class="message-text">${message}</span>
+                </div>
+            </div>
+        `;
+        $container.html(alertHtml);
+    };
+
+    APP.datepicker = function(selector = ".datepicker", format = "Y/m/d", options = {}) {
+        const settings = Object.assign(
+            { dateFormat: format, disableMobile: true }, 
+            options
+        );
+        return flatpickr(selector, settings);
+    };
+
+    APP.popupConfirm = function(message, onConfirm, options = {}) {
+        const {
+            title = 'Xác nhận hành động',
+            type = 'orange',
+            theme = 'material',
+            confirmText = 'Đồng ý',
+            cancelText = 'Hủy',
+            animation = 'scale',
+        } = options;
+
+        $.confirm({
+            title,
+            content: message,
+            type,
+            theme,
+            animation,
+            buttons: {
+            ok: {
+                text: confirmText,
+                btnClass: `btn-${type}`,
+                action: function () {
+                if (typeof onConfirm === 'function') onConfirm();
+                }
+            },
+            cancel: {
+                text: cancelText,
+                btnClass: 'btn-default'
+            }
+            }
+        });
     }
+
+    APP.popupAlert = function(message, options = {}) {
+        const {
+            title = 'Thông báo',
+            type = 'blue',
+            theme = 'material',
+            okText = 'Đã hiểu',
+            animation = 'scale',
+        } = options;
+
+        $.alert({
+            title,
+            content: message,
+            type,
+            theme,
+            animation,
+            buttons: {
+                ok: {
+                    text: okText,
+                    btnClass: `btn-${type}`
+                }
+            }
+        });
+    };
 })
 
 $(document).ready(function(){
@@ -146,4 +309,7 @@ $(document).ready(function(){
     APP.setupAjax();
     APP.select2();
     APP.showAlertMessage();
+    if(APP.isLoading()){
+        APP.loaded();
+    }
 })

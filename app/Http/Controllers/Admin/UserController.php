@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\UserSearchRequest;
 use App\Http\Requests\Admin\UserStoreRequest;
+use App\Http\Requests\Admin\UserUpdateRequest;
 use App\Repositories\RoleRepository;
 use App\Repositories\UserRepository;
+use Exception;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -23,10 +26,35 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data['users'] = $this->userRepository->searchListUser();
-        return view('admin.user.index', $data);
+        try{
+            $data['users'] = $this->userRepository->searchListUser($request);
+            $data['option'] = [
+                'role' => $this->roleRepository->getDropdown(),
+                'user_status' => ['' => ''] + USER_STATUS,
+            ];
+            return view('admin.user.index', $data);
+        }
+        catch(\Exception $e){
+            throw $e;
+        }
+    }
+
+    /**
+     * Validate the form for search
+     */
+    public function validateSearch(UserSearchRequest $request)
+    {
+        try{
+            return response()->json([
+                'data' => $request->validated(),
+                'success' => true
+            ]);
+        }
+        catch(\Exception $e){
+            throw $e;
+        }
     }
 
     /**
@@ -34,10 +62,15 @@ class UserController extends Controller
      */
     public function create()
     {
-        $data['option'] = [
-            'role' => $this->roleRepository->getDropdown(),
-        ];
-        return view('admin.user.create', $data);
+        try{
+            $data['option'] = [
+                'role' => $this->roleRepository->getDropdown(),
+            ];
+            return view('admin.user.create', $data);
+        }
+        catch(\Exception $e){
+            throw $e;
+        }
     }
 
     /**
@@ -47,10 +80,16 @@ class UserController extends Controller
     {
         try{
             $user = $this->userRepository->create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => bcrypt($request['password']),
+                'username' => $request->username,
+                'password' => bcrypt($request->password),
                 'role_id' => $request->role_id,
+                'name' => $request->name,
+                'birthday' => $request->birthday,
+                'address' => $request->address,
+                'phone' => $request->phone,
+                'email' => $request->email,
+                'created_by' => auth()->id(),
+                'updated_by' => auth()->id(),
             ]);
             return response()->json([
                 'data' => $user,
@@ -69,7 +108,12 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try{
+            return view('admin.user.show');
+        }
+        catch(\Exception $e){
+            throw $e;
+        }
     }
 
     /**
@@ -77,15 +121,49 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        try{
+            $data['user'] = $this->userRepository->getById($id);
+            $data['option'] = [
+                'role' => $this->roleRepository->getDropdown(),
+                'user_status' => ['' => ''] + USER_STATUS,
+            ];
+            return view('admin.user.edit', $data);
+        }
+        catch(\Exception $e){
+            throw $e;
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UserUpdateRequest $request, string $id)
     {
-        //
+        try{
+            $params = [
+                'username' => $request->username,
+                'role_id' => $request->role_id,
+                'name' => $request->name,
+                'birthday' => $request->birthday,
+                'address' => $request->address,
+                'phone' => $request->phone,
+                'email' => $request->email,
+                'status' => $request->status,
+                'updated_by' => auth()->id(),
+            ];
+            if(!empty($request->password)){
+                $params['password'] = bcrypt($request->password);
+            }
+            $user = $this->userRepository->update($params, $id);
+            return response()->json([
+                'data' => $user,
+                'message' => __('messages.update_success'),
+                'success' => true
+            ]);
+        }
+        catch(\Exception $e){
+            throw $e;
+        }
     }
 
     /**
@@ -100,6 +178,15 @@ class UserController extends Controller
                 return response()->json(['success' => true, 'message' => __('messages.delete_success')]);
             }
             return response()->json(['success' => true, 'message' => __('messages.delete_error')], 500);
+        }
+        catch(\Exception $e){
+            throw $e;
+        }
+    }
+
+    public function excel(){
+        try{
+            return view('admin.user.excel');
         }
         catch(\Exception $e){
             throw $e;

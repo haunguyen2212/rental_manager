@@ -4,7 +4,7 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserStoreRequest extends FormRequest
+class UserSearchRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,28 +22,20 @@ class UserStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => 'required|max:20|unique:users,username',
-            'name' => 'required|max:50',
-            'password' => 'required|min:5|max:20',
-            'role_id' => 'required|exists:roles,id',
+            'name' => 'nullable|max:50',
+            'email' => 'nullable|max:200',
+            'phone' => 'nullable|max:10',
             'birthday' => 'nullable|date|date_format:Y/m/d|before_or_equal:today',
-            'email' => 'nullable|max:200|email|unique:users,email',
-            'phone' => 'nullable|digits:10|unique:users,phone',
-            'address' => 'nullable|max:500',
         ];
     }
 
     public function attributes()
     {
         return [
-            'username'    => 'tài khoản',
-            'name' => 'họ và tên',
-            'password' => 'mật khẩu',
-            'role_id' => 'vai trò',
-            'birthday' => 'ngày sinh',
+            'name' => 'tên / tài khoản',
             'email' => 'email',
             'phone' => 'số điện thoại',
-            'address' => 'địa chỉ',
+            'birthday' => 'ngày sinh',
         ];
     }
 

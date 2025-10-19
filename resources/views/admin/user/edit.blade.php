@@ -2,56 +2,66 @@
 
 @section('content') 
     <div class="d-flex justify-content-between align-items-center mb-2">
-        <h5 class="card-title fw-semibold mb-0">Thêm tài khoản</h5>
+        <h5 class="card-title fw-semibold mb-0">Chỉnh sửa tài khoản</h5>
     </div>
     <div class="mt-3">
-        <form method="POST" action="{{ route('admin.user.store') }}" id="form-save">
+        <form method="POST" action="{{ route('admin.user.update', $user->id) }}" id="form-save">
+            @method('PATCH')
             <div class="row">
                 <div class="col-12 col-md-6 mb-3">
                     <label for="username" class="form-label required">Tên tài khoản</label>
-                    <input type="text" name="username" class="form-control" id="username" value="">
+                    <input type="text" name="username" class="form-control" id="username" value="{{ $user->username }}">
                 </div>
                 <div class="col-12 col-md-6 mb-3">
-                    <label for="password" class="form-label required">Mật khẩu</label>
+                    <label for="password" class="form-label">Mật khẩu</label>
                     <input type="password" name="password" class="form-control" id="password" value="">
+                    <div class="form-text text-info">* Nếu không muốn đổi mật khẩu, vui lòng để trống ô này.</div>
                 </div>
                 <div class="col-12 col-md-6 mb-3">
                     <label for="name" class="form-label required">Họ và tên</label>
-                    <input type="text" name="name" class="form-control" id="name" value="">
+                    <input type="text" name="name" class="form-control" id="name" value="{{ $user->name }}">
                 </div>
                 <div class="col-12 col-md-6 mb-3">
                     <label for="role-id" class="form-label required">Vai trò</label>
                     <select name="role_id" class="form-select select2" id="role-id">
                         @foreach ($option['role'] as $key => $role)
-                            <option value="{{ $key }}">{{ $role }}</option>
+                            <option value="{{ $key }}" {{ $key == $user->role_id ? 'selected' : '' }}>{{ $role }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="col-12 col-md-6 mb-3">
                     <label for="birthday" class="form-label">Ngày sinh</label>
-                    <input type="text" name="birthday" class="form-control" id="birthday" value="">
+                    <input type="text" name="birthday" class="form-control" id="birthday" value="{{ $user->birthday }}">
                 </div>
                 <div class="col-12 col-md-6 mb-3">
                     <label for="address" class="form-label">Địa chỉ</label>
-                    <input type="text" name="address" class="form-control" id="address" value="">
+                    <input type="text" name="address" class="form-control" id="address" value="{{ $user->address }}">
                 </div>
                 <div class="col-12 col-md-6 mb-3">
                     <label for="phone" class="form-label">Số điện thoại</label>
-                    <input type="text" name="phone" class="form-control" id="phone" value="">
+                    <input type="text" name="phone" class="form-control" id="phone" value="{{ $user->phone }}">
                 </div>
                 <div class="col-12 col-md-6 mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="text" name="email" class="form-control" id="email" value="">
+                    <input type="text" name="email" class="form-control" id="email" value="{{ $user->email }}">
+                </div>
+                <div class="col-12 col-md-6 mb-3">
+                    <label for="status" class="form-label required">Trạng thái tài khoản</label>
+                    <select name="status" class="form-select select2" id="status">
+                        @foreach ($option['user_status'] as $key => $status)
+                            <option value="{{ $key }}" {{ $key == $user->status ? 'selected' : '' }}>{{ $status }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
             <div class="d-flex justify-content-end mt-2">
                 <button type="button" class="btn btn-light me-1 link" data-url="{{ route('admin.user.index') }}">Quay lại</button>
-                <button type="button" class="btn btn-primary" id="btn-save">Tạo mới</button>
+                <button type="button" class="btn btn-primary" id="btn-save">Cập nhật</button>
             </div>
         </form>
     </div>
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('js/admin/user/create.js') }}?v={{ VERSION }}"></script>
+    <script src="{{ asset('js/admin/user/edit.js') }}?v={{ VERSION }}"></script>
 @endpush

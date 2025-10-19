@@ -1,14 +1,14 @@
-const USER_CREATE = {}
+const USER_EDIT = {}
 
 $(function(){
     'use strict'
 
-    USER_CREATE.init = function () {
+    USER_EDIT.init = function () {
         APP.datepicker('#birthday', 'Y/m/d', {maxDate: "today"});
-        USER_CREATE.submit();
+        USER_EDIT.submit();
     }
 
-    USER_CREATE.submit = function () {
+    USER_EDIT.submit = function () {
         $('#btn-save').on('click', function () {
             APP.loading();
             let $form = $('#form-save');
@@ -17,13 +17,9 @@ $(function(){
             APP.ajax(url, 'post', formData, function(res){
                 if(res.success){
                     APP.setCookie('message_success', res.message);
-                    if(res.url_redirect){
-                        window.location.href = res.url_redirect;
-                    }
-                    else{
-                        location.reload();
-                    }
-                }else{
+                    location.reload();
+                }
+                else{
                     APP.loaded();
                 }
             }, function (err){
@@ -42,5 +38,5 @@ $(function(){
 })
 
 $(document).ready(function(){
-    USER_CREATE.init();
+    USER_EDIT.init();
 })

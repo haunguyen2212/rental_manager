@@ -9,12 +9,18 @@
     <link rel="shortcut icon" type="image/png" href="{{ asset('images/logos/favicon.png') }}" />
     <link rel="stylesheet" href="{{ asset('libs/select2/css/select2.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('libs/select2/css/select2-bootstrap-5-theme.min.css') }}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-confirm/dist/jquery-confirm.min.css">
     <link rel="stylesheet" href="{{ asset('css/styles.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/loader.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
     @stack('styles')
 </head>
     
 <body>
+    <div id="loader-wrapper">
+        <div id="loader"></div>
+    </div>
     <!--  Body Wrapper -->
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
@@ -49,9 +55,9 @@
                     <a class="sidebar-link justify-content-between has-arrow" href="javascript:void(0)" aria-expanded="false">
                         <div class="d-flex align-items-center gap-3">
                         <span class="d-flex">
-                            <i class="ti ti-layout-grid"></i>
+                            <i class="ti ti-user"></i>
                         </span>
-                        <span class="hide-menu">Người dùng</span>
+                        <span class="hide-menu">Tài khoản</span>
                         </div>
                     </a>
                     <ul aria-expanded="false" class="collapse first-level">
@@ -74,6 +80,17 @@
                                     <i class="ti ti-circle"></i>
                                 </div>
                                 <span class="hide-menu">Thêm mới</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link justify-content-between" 
+                                href="{{ route('admin.user.excel') }}">
+                                <div class="d-flex align-items-center gap-3">
+                                <div class="round-16 d-flex align-items-center justify-content-center">
+                                    <i class="ti ti-circle"></i>
+                                </div>
+                                <span class="hide-menu">Import / export</span>
                                 </div>
                             </a>
                         </li>
@@ -1432,18 +1449,20 @@
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-body">
-                        <div class="alert customize-alert alert-dismissible text-success alert-light-success bg-success-subtle fade show remove-close-icon {{ session('success') ? '' : 'd-none' }}" id="alert-success" role="alert">
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            <div class="d-flex align-items-center  me-3 me-md-0">
-                                <i class="ti ti-info-circle fs-5 me-2 text-success"></i>
-                                <span class="message-text">{{ session('success') ?? '' }}</span>
+                        <div id="msg">
+                            <div class="alert customize-alert alert-dismissible text-success alert-light-success bg-success-subtle fade show remove-close-icon {{ session('success') ? '' : 'd-none' }}" id="alert-success" role="alert">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                <div class="d-flex align-items-center  me-3 me-md-0">
+                                    <i class="ti ti-info-circle fs-5 me-2 text-success"></i>
+                                    <span class="message-text">{{ session('success') ?? '' }}</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="alert customize-alert alert-dismissible alert-light-danger bg-danger-subtle text-danger fade show remove-close-icon {{ session('error') ? '' : 'd-none' }}" id="alert-error" role="alert">
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            <div class="d-flex align-items-center  me-3 me-md-0">
-                                <i class="ti ti-info-circle fs-5 me-2 text-danger"></i>
-                                <span class="message-text">{{ session('error') ?? '' }}</span>
+                            <div class="alert customize-alert alert-dismissible alert-light-danger bg-danger-subtle text-danger fade show remove-close-icon {{ session('error') ? '' : 'd-none' }}" id="alert-error" role="alert">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                <div class="d-flex align-items-center  me-3 me-md-0">
+                                    <i class="ti ti-info-circle fs-5 me-2 text-danger"></i>
+                                    <span class="message-text">{{ session('error') ?? '' }}</span>
+                                </div>
                             </div>
                         </div>
                         @yield('content')
@@ -1461,6 +1480,8 @@
     <!-- solar icons -->
     <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
     <script src="{{ asset('libs/select2/js/select2.full.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-confirm/dist/jquery-confirm.min.js"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     @stack('scripts')
 </body>

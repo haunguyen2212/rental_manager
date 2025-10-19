@@ -13,9 +13,13 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email');
+            $table->string('username', 20);
+            $table->string('name', 50);
             $table->unsignedInteger('role_id');
+            $table->string('email', 200)->nullable();
+            $table->date('birthday')->nullable();
+            $table->string('phone', 10)->nullable();
+            $table->string('address', 500)->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->integer('status')->default(1)->comment('1:hoạt động,2:bị khóa');

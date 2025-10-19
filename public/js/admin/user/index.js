@@ -4,44 +4,91 @@ $(function(){
     'use strict'
 
     USER_INDEX.init = function () {
+        APP.datepicker('#search-birthday', 'Y/m/d', {maxDate: "today"});
         APP.checkAllCheckbox('.check-all');
+        USER_INDEX.search();
         USER_INDEX.delete();
         USER_INDEX.multiDelete();
     }
 
+    USER_INDEX.search = function () {
+        $('#btn-search').on('click', function() {
+            $('#modal-search').modal('show');
+        })
+
+        $('#btn-search-submit').on('click', function() {
+            APP.loading();
+            let $form = $('#form-search');
+            let url = $form.attr('action');
+            let formData = APP.getFormData($form);
+            APP.ajax(url, 'post', formData, function(res){
+                if(res.success){
+                    $form.attr('action', USER_URL);
+                    APP.search($form);
+                }
+                else{
+                    APP.loaded();
+                }
+            }, function (err){
+                if(err.status == 422){
+                    APP.validate($form, err.responseJSON.errors);
+                    APP.alertDanger('Có lỗi xảy ra, vui lòng kiểm tra lại thông tin nhập vào', '#msg-search');
+                    APP.loaded();
+                }
+                else{
+                    APP.alertDanger('Có lỗi xảy ra, vui lòng thử lại sao', '#msg-search');
+                    APP.loaded();
+                }
+            })
+        })
+    }
+
     USER_INDEX.delete = function () {
         $('.btn-delete').on('click', function() {
-            let id = $(this).data('id');
-            let url = $(this).data('url');
-            let formData = new FormData();
-            formData.append('_method', 'delete');
-            formData.append('id', id);
-            APP.ajax(url, 'post', formData, function(res) {
-                if(res.success){
-                    APP.setCookie('message_success', res.message);
-                    location.reload();
-                }
-            }, function(err){
-                APP.alertDanger(err.responseJSON.message);
-            })
+            APP.popupConfirm(`Bạn có chắc muốn xóa tài khoản này không?`, function(){
+                APP.loading();
+                let id = $(this).data('id');
+                let url = $(this).data('url');
+                let formData = new FormData();
+                formData.append('_method', 'delete');
+                formData.append('id', id);
+                APP.ajax(url, 'post', formData, function(res) {
+                    if(res.success){
+                        APP.setCookie('message_success', res.message);
+                        location.reload();
+                    }
+                    else{
+                        APP.loaded();
+                    }
+                })
+            }, {type: 'red'})
         })
     }
 
     USER_INDEX.multiDelete = function () {
         $('#btn-multi-delete').on('click', function() {
             let ids = APP.getCheckedValues('id');
-            let url = $(this).data('url');
-            let formData = new FormData();
-            formData.append('_method', 'delete');
-            formData.append('id', ids);
-            APP.ajax(url, 'post', formData, function(res) {
-                if(res.success){
-                    APP.setCookie('message_success', res.message);
-                    location.reload();
-                }
-            }, function(err){
-                APP.alertDanger(err.responseJSON.message);
-            })
+            let totalUser = ids.length;
+            if(totalUser == 0){
+                APP.popupAlert('Vui lòng chọn tài khoản dùng muốn xóa');
+                return;
+            }
+            APP.popupConfirm(`Bạn có chắc muốn xóa ${totalUser} tài khoản đã chọn không?`, function(){
+                APP.loading();
+                let url = $(this).data('url');
+                let formData = new FormData();
+                formData.append('_method', 'delete');
+                formData.append('id', ids);
+                APP.ajax(url, 'post', formData, function(res) {
+                    if(res.success){
+                        APP.setCookie('message_success', res.message);
+                        location.reload();
+                    }
+                    else{
+                        APP.loaded();
+                    }
+                })
+            }, {type: 'red'})
         })
     }
 })
