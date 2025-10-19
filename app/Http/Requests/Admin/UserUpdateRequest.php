@@ -45,6 +45,7 @@ class UserUpdateRequest extends FormRequest
             'email' => 'email',
             'phone' => 'số điện thoại',
             'address' => 'địa chỉ',
+            'status' => 'trạng thái'
         ];
     }
 

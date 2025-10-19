@@ -59,6 +59,10 @@
   width: 95% !important;
 }
 
+.sortable {
+  cursor: pointer;
+}
+
 .required::after {
   content: " *";
   color: red;

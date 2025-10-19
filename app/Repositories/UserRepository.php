@@ -39,6 +39,13 @@ class UserRepository extends BaseRepository {
         if(isset($search->email)){
             $query->where('email', 'like', '%'.$search->email.'%');
         }
+        if (isset($search->sort_field)) {
+            $sortType = (isset($search->sort_type) && strtolower($search->sort_type) === 'desc') ? 'desc' : 'asc';
+            $query->orderBy($search->sort_field, $sortType);
+        }
+        else{
+            $query->orderBy('id', 'desc');
+        }
         if(empty($paginate)){
             return $query->get();
         }

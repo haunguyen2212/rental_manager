@@ -13,26 +13,26 @@
         </div>
     </div>
     <div class="table-responsive">
-        <table class="table table-hover text-nowrap mb-0 align-middle">
+        <table class="table table-hover text-nowrap mb-0 align-middle" id="table-student">
             <thead class="text-dark">
                 <tr>
                     <th class="w-5">
                         <input type="checkbox" class="form-check-input check-all" value="">
                     </th>
-                    <th class="w-20">
-                        <h6 class="fw-semibold mb-0">Tài khoản</h6>
+                    <th class="w-20 sortable" data-sort="username">
+                        <span class="fw-semibold mb-0">Tài khoản</span>
                     </th>
-                    <th class="w-20">
-                        <h6 class="fw-semibold mb-0">Họ và tên</h6>
+                    <th class="w-20 sortable" data-sort="name">
+                        <span class="fw-semibold mb-0">Họ và tên</span>
                     </th>
-                    <th class="w-15">
-                        <h6 class="fw-semibold mb-0">Vai trò</h6>
+                    <th class="w-15 sortable" data-sort="role_id">
+                        <span class="fw-semibold mb-0">Vai trò</span>
                     </th>
-                    <th class="w-15">
-                        <h6 class="fw-semibold mb-0">Trạng thái</h6>
+                    <th class="w-15 sortable" data-sort="status">
+                        <span class="fw-semibold mb-0">Trạng thái</span>
                     </th>
-                    <th class="w-25">
-                        <h6 class="fw-semibold mb-0">Email</h6>
+                    <th class="w-25 sortable" data-sort="email">
+                        <span class="fw-semibold mb-0">Email</span>
                     </th>
                     <th class="w-30"></th>
                 </tr>

@@ -6,6 +6,7 @@ $(function(){
     USER_INDEX.init = function () {
         APP.datepicker('#search-birthday', 'Y/m/d', {maxDate: "today"});
         APP.checkAllCheckbox('.check-all');
+        APP.sort($('#table-student'));
         USER_INDEX.search();
         USER_INDEX.delete();
         USER_INDEX.multiDelete();

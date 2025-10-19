@@ -3,18 +3,34 @@ const APP = {}
 $(function(){
     'use strict'
 
+    /**
+     * Displays the loading screen (e.g., during AJAX requests or page loading).
+     */
     APP.loading = function () {
         $('#loader-wrapper').show();
     }
 
+    /**
+     * Hides the loading screen after processing or data loading is complete.
+     */
     APP.loaded = function () {
         $('#loader-wrapper').hide();
     }
 
+    /**
+     * Checks whether the loading screen is currently visible.
+     * @returns {boolean}
+     */
     APP.isLoading = function () {
         return $('#loader-wrapper').is(':visible');
     };
 
+    /**
+     * Converts form fields and file inputs into a FormData object.
+     * 
+     * @param {jQuery} $form - The jQuery form element to extract data from.
+     * @returns {FormData}
+     */
     APP.getFormData = function ($form) {
         let formData = new FormData();
         let arr = $form.serializeArray();
@@ -29,6 +45,10 @@ $(function(){
         return formData;
     }
 
+    /**
+     * Attaches click event handlers to buttons with the 'link' class.
+     * When clicked, the page will redirect to the URL specified in the 'data-url' attribute.
+     */
     APP.linkButton = function () {
         $('button.link').on('click', function(){
             APP.loading();
@@ -39,6 +59,25 @@ $(function(){
         });
     }
 
+    /**
+     * Initializes all elements with the "select2" class using the Select2 plugin.
+     */
+    APP.select2 = function () {
+        $('.select2').each(function () {
+            const $parentModal = $(this).closest('.modal');
+            
+            $(this).select2({
+                theme: 'bootstrap-5',
+                allowClear: false,
+                width: '100%',
+                dropdownParent: $parentModal.length ? $parentModal : $(document.body)
+            });
+        });
+    };
+
+    /**
+     * Configures global AJAX settings for jQuery.
+     */
     APP.setupAjax = function () {
         $.ajaxSetup({
             headers: {
@@ -47,6 +86,15 @@ $(function(){
         });
     }
 
+    /**
+     * Performs an AJAX request with standardized settings and error handling.
+     *
+     * @param {string} url - The endpoint URL for the AJAX request.
+     * @param {string} method - The HTTP method (GET, POST, PUT, DELETE, etc.).
+     * @param {object|FormData} data - The data to send with the request.
+     * @param {function} [successCallback] - Callback executed on successful response.
+     * @param {function} [errorCallback] - Optional callback executed when an error occurs.
+     */
     APP.ajax = function (url, method, data, successCallback, errorCallback) {
         $.ajax({
             url: url,
@@ -72,19 +120,39 @@ $(function(){
         });
     }
 
-    APP.select2 = function () {
-        $('.select2').each(function () {
-            const $parentModal = $(this).closest('.modal');
-            
-            $(this).select2({
-                theme: 'bootstrap-5',
-                allowClear: false,
-                width: '100%',
-                dropdownParent: $parentModal.length ? $parentModal : $(document.body)
-            });
+    /**
+     * Displays validation error messages for form inputs.
+     *
+     * @param {jQuery} $form - The form element to validate.
+     * @param {Object} errors - An object where keys are input names and values are arrays of error messages.
+     */
+    APP.validate = function($form, errors) {
+        $form.find('.is-invalid').removeClass('is-invalid');
+        $form.find('.invalid-feedback').remove();
+
+        $.each(errors, function(field, messages) {
+            let $input = $form.find('[name="' + field + '"]');
+
+            if ($input.length) {
+                $input.addClass('is-invalid');
+
+                if ($input.hasClass('select2')) {
+                    $input.next('.select2-container')
+                        .after('<div class="invalid-feedback d-block">' + messages[0] + '</div>');
+                } else {
+                    $input.after('<div class="invalid-feedback">' + messages[0] + '</div>');
+                }
+            }
         });
     };
 
+    /**
+     * Sets a cookie with a given name, value, and optional expiration time.
+     *
+     * @param {string} name - The name of the cookie.
+     * @param {string} value - The value to store in the cookie.
+     * @param {number} [days=7] - Number of days before the cookie expires (default: 7 days).
+     */
     APP.setCookie = function (name, value, days = 7) {
         let expires = "";
         if(days) {
@@ -95,6 +163,12 @@ $(function(){
         document.cookie = name + "=" + encodeURIComponent(value) + expires + "; path=/";
     }
 
+    /**
+     * Retrieves the value of a cookie by its name.
+     *
+     * @param {string} name - The name of the cookie to retrieve.
+     * @returns {string|null} The cookie value if found, otherwise null.
+     */
     APP.getCookie = function (name) {
         let nameEQ = name + "=";
         let ca = document.cookie.split(';');
@@ -105,10 +179,18 @@ $(function(){
         return null;
     }
 
+    /**
+     * Deletes a cookie by setting its expiration date to a past time.
+     *
+     * @param {string} name - The name of the cookie to delete.
+     */
     APP.deleteCookie = function (name) {
         document.cookie = name + "=; Max-Age=-99999999; path=/";
     }
 
+    /**
+     * Displays a success alert message stored in a cookie.
+     */
     APP.showAlertMessage = function () {
         let message_success = APP.getCookie('message_success');
         if(message_success){
@@ -118,6 +200,11 @@ $(function(){
         }
     }
 
+    /**
+     * Enables "Check All" functionality for tables.
+     * 
+     * @param {string} check_all_selector - The selector for the master "check all" checkbox.
+     */
     APP.checkAllCheckbox = function (check_all_selector) {
         $('body').on('change', check_all_selector, function(){
             let isChecked = $(this).is(':checked');
@@ -133,6 +220,12 @@ $(function(){
         });
     }
 
+    /**
+     * Retrieves the values of all checked (and visible, enabled) checkbox inputs that share the same base name.
+     *
+     * @param {string} inputName - The base name of the checkbox inputs (e.g., "items" for inputs like name="items[0]").
+     * @returns {Array<string>} An array containing the values of all checked checkboxes.
+     */
     APP.getCheckedValues = function(inputName) {
         let values = [];
         $(`input[name^="${inputName}["]:checked:not(:disabled):visible`).each(function() {
@@ -141,6 +234,12 @@ $(function(){
         return values;
     }
 
+    /**
+     * Submits a search form by building a query string from its input fields,
+     * then redirects the page to the resulting URL.
+     *
+     * @param {jQuery} $form - The jQuery form element to process.
+     */
     APP.search = function($form) {
         if ($form.length === 0) return;
         const action = $form.attr('action') || '';
@@ -164,27 +263,12 @@ $(function(){
         window.location.href = newAction;
     };
 
-
-    APP.validate = function($form, errors) {
-        $form.find('.is-invalid').removeClass('is-invalid');
-        $form.find('.invalid-feedback').remove();
-
-        $.each(errors, function(field, messages) {
-            let $input = $form.find('[name="' + field + '"]');
-
-            if ($input.length) {
-                $input.addClass('is-invalid');
-
-                if ($input.hasClass('select2')) {
-                    $input.next('.select2-container')
-                        .after('<div class="invalid-feedback d-block">' + messages[0] + '</div>');
-                } else {
-                    $input.after('<div class="invalid-feedback">' + messages[0] + '</div>');
-                }
-            }
-        });
-    };
-
+    /**
+     * Displays a success alert message inside a specified container.
+     *
+     * @param {string} message - The success message text to display.
+     * @param {string} [container='#msg'] - The selector of the container element to insert the alert into.
+     */
     APP.alertSuccess = function(message, container = '#msg') {
         let $container = $(container);
         if ($container.length === 0) {
@@ -203,6 +287,12 @@ $(function(){
         $container.html(alertHtml);
     };
 
+    /**
+     * Displays an error (danger) alert message inside a specified container.
+     *
+     * @param {string} message - The error message text to display.
+     * @param {string} [container='#msg'] - The selector of the container element to insert the alert into.
+     */
     APP.alertDanger = function(message, container = '#msg') {
         let $container = $(container);
         if ($container.length === 0) {
@@ -221,6 +311,12 @@ $(function(){
         $container.html(alertHtml);
     };
 
+    /**
+     * Displays a warning alert message inside a specified container.
+     *
+     * @param {string} message - The warning message text to display.
+     * @param {string} [container='#msg'] - The selector of the container element to insert the alert into.
+     */
     APP.alertWarning = function(message, container = '#msg') {
         let $container = $(container);
         if ($container.length === 0) {
@@ -239,6 +335,14 @@ $(function(){
         $container.html(alertHtml);
     };
 
+    /**
+     * Initializes Flatpickr datepickers on the specified selector.
+     *
+     * @param {string} [selector=".datepicker"] - The selector for input elements to apply the datepicker to.
+     * @param {string} [format="Y/m/d"] - The display format of the date.
+     * @param {object} [options={}] - Additional Flatpickr configuration options.
+     * @returns {FlatpickrInstance[]} The initialized Flatpickr instances.
+     */
     APP.datepicker = function(selector = ".datepicker", format = "Y/m/d", options = {}) {
         const settings = Object.assign(
             { dateFormat: format, disableMobile: true }, 
@@ -247,6 +351,13 @@ $(function(){
         return flatpickr(selector, settings);
     };
 
+    /**
+     * Displays a confirmation popup using jQuery Confirm.
+     *
+     * @param {string} message - The confirmation message to display.
+     * @param {function} onConfirm - Callback function executed when the user confirms the action.
+     * @param {object} [options={}] - Optional configuration for customizing the popup.
+     */
     APP.popupConfirm = function(message, onConfirm, options = {}) {
         const {
             title = 'Xác nhận hành động',
@@ -279,6 +390,12 @@ $(function(){
         });
     }
 
+    /**
+     * Displays an alert popup using jQuery Confirm (simple notification).
+     *
+     * @param {string} message - The alert message to display.
+     * @param {object} [options={}] - Optional configuration for customizing the alert.
+     */
     APP.popupAlert = function(message, options = {}) {
         const {
             title = 'Thông báo',
@@ -302,6 +419,51 @@ $(function(){
             }
         });
     };
+
+    /**
+     * Enables column sorting functionality for tables with sortable headers.
+     *
+     * Usage:
+     * 1. Add the class `.sortable` to any `<th>` element that should be clickable for sorting.
+     * 2. Add a `data-sort="field_name"` attribute to specify the sort field.
+     * 3. Optionally, use a container class (e.g. `.table`) for targeting a specific table.
+     *
+     * @param {string} [tableSelector='.table'] - The selector for the table(s) to apply sorting to.
+     */
+    APP.sort = function(tableSelector = '.table') {
+        const $table = $(tableSelector);
+        if ($table.length === 0) return;
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const sortField = urlParams.get('sort_field');
+        const sortType = urlParams.get('sort_type') || 'asc';
+
+        $table.find('th.sortable').each(function(){
+            const $th = $(this);
+            const field = $th.data('sort');
+
+            $th.find('i.sort-icon').remove();
+
+            if(sortField && field === sortField){
+                const iconClass = sortType === 'asc' ? 'ti ti-chevron-up' : 'ti ti-chevron-down';
+                $th.append(` <i class="sort-icon ${iconClass}"></i>`);
+                $th.data('dir', sortType);
+            }
+        });
+
+        $table.find('th.sortable').off('click').on('click', function(){
+            APP.loading();
+            const $th = $(this);
+            const field = $th.data('sort');
+            const currentDir = $th.data('dir') || 'asc';
+            const newDir = currentDir === 'asc' ? 'desc' : 'asc';
+            $th.data('dir', newDir);
+            urlParams.set('sort_field', field);
+            urlParams.set('sort_type', newDir);
+            window.location.search = urlParams.toString();
+        });
+    };
+
 })
 
 $(document).ready(function(){
