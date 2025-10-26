@@ -15,4 +15,5 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
     Route::delete('user', [UserController::class, 'destroy'])->name('user.destroy');
     Route::post('user/excel/import', [UserExcelController::class, 'import'])->name('user.import');
     Route::get('user/excel/download-template', [UserExcelController::class, 'downloadTemplate'])->name('user.download_template');
+    Route::get('user/excel/export', [UserExcelController::class, 'export'])->name('user.export');
 });

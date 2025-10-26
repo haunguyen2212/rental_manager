@@ -17,7 +17,7 @@ $(function(){
             let form = $('#form-import');
             let formData = APP.getFormData(form);
             let url = form.attr('action');
-            APP.ajax(url, 'post', formData, function(res){
+            APP.postAjax(url, formData, function(res){
                 if(res.success){
                     APP.setCookie('message_success', res.message);
                     location.reload();

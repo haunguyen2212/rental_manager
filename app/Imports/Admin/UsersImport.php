@@ -35,7 +35,7 @@ class UsersImport implements ToModel, WithStartRow, WithValidation, SkipsOnFailu
             $birthday = Carbon::instance(Date::excelToDateTimeObject($row[5]));
         }
         else{
-            $birthday = Carbon::createFromFormat('d/m/Y', $row[5])->format('Y-m-d');
+            $birthday = Carbon::createFromFormat(DATE_FORMAT_VIEW, $row[5])->format(DATE_FORMAT_SQL);
         }
         return new User([
             'username' => $row[0],
@@ -50,6 +50,9 @@ class UsersImport implements ToModel, WithStartRow, WithValidation, SkipsOnFailu
         ]);
     }
 
+    /**
+    * @return array
+    */
     public function rules(): array
     {
         return [
@@ -65,6 +68,9 @@ class UsersImport implements ToModel, WithStartRow, WithValidation, SkipsOnFailu
         ];
     }
 
+    /**
+    * @return array
+    */
     public function customValidationAttributes(): array
     {
         return [
@@ -80,13 +86,21 @@ class UsersImport implements ToModel, WithStartRow, WithValidation, SkipsOnFailu
         ];
     }
 
+    /**
+    * @param Failure ...$failures
+    *
+    * @return void
+    */
     public function onFailure(Failure ...$failures)
     {
         self::$allFailures = array_merge(self::$allFailures, $failures);
     }
 
+    /**
+    * @return int
+    */
     public function chunkSize(): int
     {
-        return 1;
+        return 500;
     }
 }

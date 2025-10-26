@@ -107,3 +107,18 @@
     font-size: 14px;
   }
 }
+
+.round-110{
+  width: 110px;
+  height: 110px;
+}
+
+.user-profile-tab .nav-item .nav-link.active {
+  color: var(--bs-primary);
+  border-bottom: 2px solid var(--bs-primary);
+}
+
+.user-profile-tab .nav-item .nav-link {
+  background-color: transparent;
+  color: var(--bs-muted);
+}

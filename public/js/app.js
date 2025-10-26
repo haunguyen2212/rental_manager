@@ -87,18 +87,17 @@ $(function(){
     }
 
     /**
-     * Performs an AJAX request with standardized settings and error handling.
+     * Performs an AJAX post request with standardized settings and error handling.
      *
      * @param {string} url - The endpoint URL for the AJAX request.
-     * @param {string} method - The HTTP method (GET, POST, PUT, DELETE, etc.).
      * @param {object|FormData} data - The data to send with the request.
      * @param {function} [successCallback] - Callback executed on successful response.
      * @param {function} [errorCallback] - Optional callback executed when an error occurs.
      */
-    APP.ajax = function (url, method, data, successCallback, errorCallback) {
+    APP.postAjax = function (url, data, successCallback, errorCallback) {
         $.ajax({
             url: url,
-            type: method,
+            type: 'POST',
             data: data,
             processData: !(data instanceof FormData),
             contentType: (data instanceof FormData) ? false : 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -119,6 +118,37 @@ $(function(){
             }
         });
     }
+
+    /**
+     * Performs an AJAX get request with standardized settings and error handling.
+     *
+     * @param {string} url - The endpoint URL for the AJAX request.
+     * @param {object|FormData} data - The data to send with the request.
+     * @param {function} [successCallback] - Callback executed on successful response.
+     * @param {function} [errorCallback] - Optional callback executed when an error occurs.
+     */
+    APP.getAjax = function (url, data, successCallback, errorCallback) {
+        $.ajax({
+            url: url,
+            type: 'GET',
+            data: data,
+            success: function (res) {
+                if (typeof successCallback === 'function') {
+                    successCallback(res);
+                }
+            },
+            error: function (xhr) {
+                if (typeof errorCallback === 'function') {
+                    errorCallback(xhr);
+                } else {
+                    APP.alertDanger(xhr.responseJSON?.message ?? 'Có lỗi xảy ra, vui lòng thử lại sau');
+                    if (APP.isLoading()) {
+                        APP.loaded();
+                    }
+                }
+            }
+        });
+    };
 
     /**
      * Displays validation error messages for form inputs.

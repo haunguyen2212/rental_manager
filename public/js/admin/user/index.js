@@ -10,6 +10,7 @@ $(function(){
         USER_INDEX.search();
         USER_INDEX.delete();
         USER_INDEX.multiDelete();
+        USER_INDEX.export();
     }
 
     USER_INDEX.search = function () {
@@ -22,7 +23,7 @@ $(function(){
             let $form = $('#form-search');
             let url = $form.attr('action');
             let formData = APP.getFormData($form);
-            APP.ajax(url, 'post', formData, function(res){
+            APP.postAjax(url, formData, function(res){
                 if(res.success){
                     $form.attr('action', USER_URL);
                     APP.search($form);
@@ -46,14 +47,14 @@ $(function(){
 
     USER_INDEX.delete = function () {
         $('.btn-delete').on('click', function() {
+            let id = $(this).data('id');
+            let url = $(this).data('url');
             APP.popupConfirm(`Bạn có chắc muốn xóa tài khoản này không?`, function(){
                 APP.loading();
-                let id = $(this).data('id');
-                let url = $(this).data('url');
                 let formData = new FormData();
                 formData.append('_method', 'delete');
                 formData.append('id', id);
-                APP.ajax(url, 'post', formData, function(res) {
+                APP.postAjax(url, formData, function(res) {
                     if(res.success){
                         APP.setCookie('message_success', res.message);
                         location.reload();
@@ -70,17 +71,17 @@ $(function(){
         $('#btn-multi-delete').on('click', function() {
             let ids = APP.getCheckedValues('id');
             let totalUser = ids.length;
+            let url = $(this).data('url');
             if(totalUser == 0){
                 APP.popupAlert('Vui lòng chọn tài khoản dùng muốn xóa');
                 return;
             }
             APP.popupConfirm(`Bạn có chắc muốn xóa ${totalUser} tài khoản đã chọn không?`, function(){
-                APP.loading();
-                let url = $(this).data('url');
+                APP.loading()
                 let formData = new FormData();
                 formData.append('_method', 'delete');
                 formData.append('id', ids);
-                APP.ajax(url, 'post', formData, function(res) {
+                APP.postAjax(url, formData, function(res) {
                     if(res.success){
                         APP.setCookie('message_success', res.message);
                         location.reload();
@@ -90,6 +91,26 @@ $(function(){
                     }
                 })
             }, {type: 'red'})
+        })
+    }
+
+    USER_INDEX.export = function () {
+        $('#btn-export').on('click', function() {
+            let url = $(this).data('url');
+            let ids = APP.getCheckedValues('id');
+            let totalUser = ids.length;
+            if(totalUser == 0){
+                APP.popupConfirm('Bạn có chắc muốn export tất cả các dữ liệu trong kết quả tìm kiếm không?', function(){
+                    let exportUrl = url + window.location.search;
+                    window.location.href = exportUrl;
+                }, {type: 'blue'});
+            }
+            else{
+                APP.popupConfirm(`Bạn có chắc muốn export ${totalUser} tài khoản đã chọn không?`, function(){
+                    let exportUrl = url + '?ids=' + ids.join(',');
+                    window.location.href = exportUrl;
+                }, {type: 'blue'});
+            }
         })
     }
 })

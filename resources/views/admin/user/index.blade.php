@@ -8,6 +8,7 @@
         </h5>
         <div>
             <button type="button" class="btn btn-sm-md btn-success ms-0 me-md-1" id="btn-search"><i class="ti ti-search"></i><span class="d-none d-sm-inline"> Tìm kiếm</span></button>
+            <button type="button" class="btn btn-sm-md btn-secondary ms-0 me-md-1" id="btn-export" data-url="{{ route('admin.user.export') }}" {{ $users->count() > 0 ? '' : 'disabled' }}><i class="ti ti-file-export"></i><span class="d-none d-sm-inline"> Export</span></button>
             <button type="button" class="btn btn-sm-md btn-danger ms-0 me-md-1" id="btn-multi-delete" data-url="{{ route('admin.user.destroy') }}" {{ $users->count() > 0 ? '' : 'disabled' }}><i class="ti ti-trash"></i><span class="d-none d-sm-inline"> Xóa</span></button>
             <button type="button" class="btn btn-sm-md btn-primary link" id="btn-create" data-url="{{ route('admin.user.create') }}"><i class="ti ti-plus"></i><span class="d-none d-sm-inline"> Thêm mới</span></button>
         </div>

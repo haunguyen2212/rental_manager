@@ -14,7 +14,7 @@ $(function(){
             let $form = $('#form-save');
             let url = $form.attr('action');
             let formData = APP.getFormData($form);
-            APP.ajax(url, 'post', formData, function(res){
+            APP.postAjax(url, formData, function(res){
                 if(res.success){
                     APP.setCookie('message_success', res.message);
                     if(res.url_redirect){

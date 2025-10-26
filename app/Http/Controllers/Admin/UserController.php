@@ -109,7 +109,8 @@ class UserController extends Controller
     public function show(string $id)
     {
         try{
-            return view('admin.user.show');
+            $data['user'] = $this->userRepository->getById($id);
+            return view('admin.user.show', $data);
         }
         catch(\Exception $e){
             throw $e;

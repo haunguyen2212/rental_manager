@@ -2,14 +2,13 @@
 
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-2">
-        <h5 class="card-title fw-semibold mb-0">Import / export tài khoản</h5>
+        <h5 class="card-title fw-semibold mb-0">Import tài khoản</h5>
     </div>
     <div class="mt-3">
         <div class="bg-light p-4 rounded-3 border mb-3">
             <div class="mb-3">
                 Tại đây bạn có thể <strong class="text-dark">nhập (Import)</strong> dữ liệu từ file Excel, 
-                <strong class="text-dark">xuất (Export)</strong> dữ liệu hiện tại ra file Excel, 
-                hoặc <a href="{{ route('admin.user.download_template') }}" class="fw-semibold text-decoration-none text-primary" id="link-download-template">tải file import mẫu</a> 
+                hãy <a href="{{ route('admin.user.download_template') }}" class="fw-semibold text-decoration-none text-primary" id="link-download-template">tải file import mẫu</a> 
                 để chuẩn bị dữ liệu đúng định dạng.
             </div>
 
@@ -27,17 +26,7 @@
                 <i class="fa-solid fa-file-import"></i>
                 <span>Import</span>
             </button>
-            <a href="" class="btn btn-primary px-4">
-                <i class="fa-solid fa-file-export"></i>
-                <span>Export</span>
-            </a>
         </div>
-
-        <div id="messageArea" class="mt-4 d-none">
-            <div class="alert alert-success d-none" id="successMessage"></div>
-            <div class="alert alert-danger d-none" id="errorMessage"></div>
-        </div>
-
         <form action="{{ route('admin.user.import') }}" id="form-import" enctype="multipart/form-data">
             <input type="file" name="file" id="file-import" class="d-none" accept=".xlsx,.xls">
         </form>
