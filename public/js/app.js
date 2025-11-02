@@ -3,6 +3,10 @@ const APP = {}
 $(function(){
     'use strict'
 
+    // =========================================================
+    // VOID FUNCTIONS (No return value)
+    // =========================================================
+
     /**
      * Displays the loading screen (e.g., during AJAX requests or page loading).
      */
@@ -15,34 +19,6 @@ $(function(){
      */
     APP.loaded = function () {
         $('#loader-wrapper').hide();
-    }
-
-    /**
-     * Checks whether the loading screen is currently visible.
-     * @returns {boolean}
-     */
-    APP.isLoading = function () {
-        return $('#loader-wrapper').is(':visible');
-    };
-
-    /**
-     * Converts form fields and file inputs into a FormData object.
-     * 
-     * @param {jQuery} $form - The jQuery form element to extract data from.
-     * @returns {FormData}
-     */
-    APP.getFormData = function ($form) {
-        let formData = new FormData();
-        let arr = $form.serializeArray();
-        for(let i = 0; i < arr.length; i++){
-            formData.append(arr[i].name, arr[i].value);
-        }
-        $form.find('input[type="file"]').each(function () {
-            if (this.files.length > 0) {
-                formData.append(this.name, this.files[0]);
-            }
-        });
-        return formData;
     }
 
     /**
@@ -74,6 +50,16 @@ $(function(){
             });
         });
     };
+
+    /**
+     * Initialize Bootstrap tooltips across the page.
+     */
+    APP.tooltip = function () {
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    }
 
     /**
      * Configures global AJAX settings for jQuery.
@@ -194,22 +180,6 @@ $(function(){
     }
 
     /**
-     * Retrieves the value of a cookie by its name.
-     *
-     * @param {string} name - The name of the cookie to retrieve.
-     * @returns {string|null} The cookie value if found, otherwise null.
-     */
-    APP.getCookie = function (name) {
-        let nameEQ = name + "=";
-        let ca = document.cookie.split(';');
-        for(let i = 0; i < ca.length; i++) {
-            let c = ca[i].trim();
-            if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length));
-        }
-        return null;
-    }
-
-    /**
      * Deletes a cookie by setting its expiration date to a past time.
      *
      * @param {string} name - The name of the cookie to delete.
@@ -248,20 +218,6 @@ $(function(){
             let allChecked = $checkboxes.length && $checkboxes.filter(':checked').length === $checkboxes.length;
             $checkAll.prop('checked', allChecked);
         });
-    }
-
-    /**
-     * Retrieves the values of all checked (and visible, enabled) checkbox inputs that share the same base name.
-     *
-     * @param {string} inputName - The base name of the checkbox inputs (e.g., "items" for inputs like name="items[0]").
-     * @returns {Array<string>} An array containing the values of all checked checkboxes.
-     */
-    APP.getCheckedValues = function(inputName) {
-        let values = [];
-        $(`input[name^="${inputName}["]:checked:not(:disabled):visible`).each(function() {
-            values.push($(this).val());
-        });
-        return values;
     }
 
     /**
@@ -494,14 +450,111 @@ $(function(){
         });
     };
 
+    // =========================================================
+    // RETURNABLE FUNCTIONS (Functions that return values)
+    // =========================================================
+
+    /**
+     * Checks whether the loading screen is currently visible.
+     * @returns {boolean}
+     */
+    APP.isLoading = function () {
+        return $('#loader-wrapper').is(':visible');
+    };
+
+    /**
+     * Converts form fields and file inputs into a FormData object.
+     * 
+     * @param {jQuery} $form - The jQuery form element to extract data from.
+     * @returns {FormData}
+     */
+    APP.getFormData = function ($form) {
+        let formData = new FormData();
+        let arr = $form.serializeArray();
+        for(let i = 0; i < arr.length; i++){
+            formData.append(arr[i].name, arr[i].value);
+        }
+        $form.find('input[type="file"]').each(function () {
+            if (this.files.length > 0) {
+                formData.append(this.name, this.files[0]);
+            }
+        });
+        return formData;
+    }
+
+    /**
+     * Retrieves the value of a cookie by its name.
+     *
+     * @param {string} name - The name of the cookie to retrieve.
+     * @returns {string|null} The cookie value if found, otherwise null.
+     */
+    APP.getCookie = function (name) {
+        let nameEQ = name + "=";
+        let ca = document.cookie.split(';');
+        for(let i = 0; i < ca.length; i++) {
+            let c = ca[i].trim();
+            if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length));
+        }
+        return null;
+    }
+
+    /**
+     * Retrieves the values of all checked (and visible, enabled) checkbox inputs that share the same base name.
+     *
+     * @param {string} inputName - The base name of the checkbox inputs (e.g., "items" for inputs like name="items[0]").
+     * @returns {Array<string>} An array containing the values of all checked checkboxes.
+     */
+    APP.getCheckedValues = function(inputName) {
+        let values = [];
+        $(`input[name^="${inputName}["]:checked:not(:disabled):visible`).each(function() {
+            values.push($(this).val());
+        });
+        return values;
+    }
+
+    /**
+    * Converts a Vietnamese text string into a URL-friendly slug.
+    * 
+    * @param {string} text
+    * @returns {string}
+    */
+    APP.convertToSlug = function (text) {
+        var slug = text.toLowerCase();
+        slug = slug.replace(/á|à|ả|ạ|ã|ă|ắ|ằ|ẳ|ẵ|ặ|â|ấ|ầ|ẩ|ẫ|ậ/gi, 'a');
+        slug = slug.replace(/é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ/gi, 'e');
+        slug = slug.replace(/i|í|ì|ỉ|ĩ|ị/gi, 'i');
+        slug = slug.replace(/ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ/gi, 'o');
+        slug = slug.replace(/ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự/gi, 'u');
+        slug = slug.replace(/ý|ỳ|ỷ|ỹ|ỵ/gi, 'y');
+        slug = slug.replace(/đ/gi, 'd');
+        // Delete special characters
+        slug = slug.replace(/\`|\~|\!|\@|\#|\||\$|\%|\^|\&|\*|\(|\)|\+|\=|\,|\.|\/|\?|\>|\<|\'|\"|\:|\;|_/gi, '');
+        //Replace spaces with hyphens
+        slug = slug.replace(/ /gi, "-");
+        //Replace multiple consecutive hyphens with a single one
+        slug = slug.replace(/\-\-\-\-\-/gi, '-');
+        slug = slug.replace(/\-\-\-\-/gi, '-');
+        slug = slug.replace(/\-\-\-/gi, '-');
+        slug = slug.replace(/\-\-/gi, '-');
+        //Remove leading and trailing hyphens
+        slug = '@' + slug + '@';
+        slug = slug.replace(/\@\-|\-\@|\@/gi, '');
+        return slug;
+    };
 })
 
 $(document).ready(function(){
     APP.linkButton();
     APP.setupAjax();
     APP.select2();
+    APP.tooltip();
     APP.showAlertMessage();
     if(APP.isLoading()){
         APP.loaded();
     }
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted) {
+            APP.loaded();
+        }
+    });
 })

@@ -38,4 +38,5 @@ return [
     'mimetypes' => 'Vui lòng chọn :attribute có định dạng hợp lệ: :values.',
     'date_format' => 'Vui lòng nhập :attribute theo định dạng :format.',
     'before_or_equal' => 'Vui lòng nhập :attribute có ngày nhỏ hơn hoặc bằng :date.',
+    'regex' => 'Định dạng :attribute không hợp lệ.',
 ];

@@ -5,22 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Role extends Model
+class Category extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'roles';
+    protected $table = 'categories';
 
     protected $primaryKey = 'id';
 
     protected $fillable = [
         'name',
+        'slug',
+        'description',
         'created_by',
         'updated_by',
     ];
-
-    public function users()
-    {
-        return $this->hasMany(User::class, 'role_id');
-    }
 }

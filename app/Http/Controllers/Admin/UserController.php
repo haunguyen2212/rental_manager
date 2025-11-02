@@ -25,6 +25,9 @@ class UserController extends Controller
 
     /**
      * Display a listing of the resource.
+     * 
+     * @param Request $request
+     * @return view
      */
     public function index(Request $request)
     {
@@ -43,6 +46,9 @@ class UserController extends Controller
 
     /**
      * Validate the form for search
+     * 
+     * @param UserSearchRequest $request
+     * @return Response
      */
     public function validateSearch(UserSearchRequest $request)
     {
@@ -59,6 +65,8 @@ class UserController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     * 
+     * @return view
      */
     public function create()
     {
@@ -75,6 +83,9 @@ class UserController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * 
+     * @param UserStoreRequest $request
+     * @return Response
      */
     public function store(UserStoreRequest $request)
     {
@@ -105,6 +116,9 @@ class UserController extends Controller
 
     /**
      * Display the specified resource.
+     * 
+     * @param string $id
+     * @return view
      */
     public function show(string $id)
     {
@@ -119,6 +133,9 @@ class UserController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     * 
+     * @param string $id
+     * @return view
      */
     public function edit(string $id)
     {
@@ -137,6 +154,10 @@ class UserController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * 
+     * @param UserUpdateRequest $request
+     * @param string $id
+     * @return Response
      */
     public function update(UserUpdateRequest $request, string $id)
     {
@@ -169,6 +190,9 @@ class UserController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * 
+     * @param Request $request
+     * @return Response
      */
     public function destroy(Request $request)
     {
@@ -185,6 +209,11 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * Display the import screen.
+     * 
+     * @return view
+     */
     public function excel(){
         try{
             return view('admin.user.excel');

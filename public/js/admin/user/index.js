@@ -73,7 +73,7 @@ $(function(){
             let totalUser = ids.length;
             let url = $(this).data('url');
             if(totalUser == 0){
-                APP.popupAlert('Vui lòng chọn tài khoản dùng muốn xóa');
+                APP.popupAlert('Vui lòng chọn tài khoản muốn xóa');
                 return;
             }
             APP.popupConfirm(`Bạn có chắc muốn xóa ${totalUser} tài khoản đã chọn không?`, function(){
