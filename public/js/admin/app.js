@@ -163,6 +163,18 @@ $(function(){
     };
 
     /**
+     * Clears all validation error states and messages from a given form.
+     *
+     * @param {jQuery} $form - The form element to clear errors from.
+     * @param {string} [$container='#msg'] - Optional selector for a message container to clear.
+     */
+    APP.removeError = function($form, $container = '#msg') {
+        $form.find('.is-invalid').removeClass('is-invalid');
+        $form.find('.invalid-feedback').remove();
+        $($container).html('');
+    } 
+
+    /**
      * Sets a cookie with a given name, value, and optional expiration time.
      *
      * @param {string} name - The name of the cookie.
@@ -450,6 +462,17 @@ $(function(){
         });
     };
 
+    /**
+     * Attaches a click event to the logout button
+     */
+    APP.logout = function () {
+        $('#btn-logout').on('click', function(e){
+            e.preventDefault();
+            let $form = $('#form-logout');
+            $form.submit();
+        })
+    }
+
     // =========================================================
     // RETURNABLE FUNCTIONS (Functions that return values)
     // =========================================================
@@ -549,6 +572,7 @@ $(document).ready(function(){
     APP.select2();
     APP.tooltip();
     APP.showAlertMessage();
+    APP.logout();
     if(APP.isLoading()){
         APP.loaded();
     }

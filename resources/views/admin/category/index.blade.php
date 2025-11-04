@@ -1,5 +1,7 @@
 @extends('admin.common.master')
 
+@section('title', 'Danh mục')
+
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-2">
         <h5 class="card-title fw-semibold mb-0">

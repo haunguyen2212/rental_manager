@@ -1460,7 +1460,7 @@
                         <i class="ti ti-list-check fs-6"></i>
                         <p class="mb-0 fs-3">My Task</p>
                         </a>
-                        <a href="./authentication-login.html" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                        <a href="#" class="btn btn-outline-primary mx-3 mt-2 d-block" id="btn-logout">Đăng xuất</a>
                     </div>
                     </div>
                 </li>
@@ -1496,6 +1496,9 @@
         </div>
         </div>
     </div>
+    <form method="post" action="{{ route('admin.logout.post') }}" id="form-logout">
+        @csrf
+    </form>
     <script src="{{ asset('libs/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ asset('libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('js/sidebarmenu.js') }}"></script>
@@ -1506,7 +1509,7 @@
     <script src="{{ asset('libs/select2/js/select2.full.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-confirm/dist/jquery-confirm.min.js"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/admin/app.js') }}"></script>
     @stack('scripts')
 </body>
 

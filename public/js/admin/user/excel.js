@@ -14,9 +14,9 @@ $(function(){
 
         $('#file-import').on('change', function(){
             APP.loading();
-            let form = $('#form-import');
-            let formData = APP.getFormData(form);
-            let url = form.attr('action');
+            let $form = $('#form-import');
+            let formData = APP.getFormData($form);
+            let url = $form.attr('action');
             APP.postAjax(url, formData, function(res){
                 if(res.success){
                     APP.setCookie('message_success', res.message);

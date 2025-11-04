@@ -9,4 +9,7 @@ return [
     'update_error' => 'Cập nhật thất bại',
     'import_success' => 'Import thành công!',
     'import_success_with_error' => 'Import hoàn tất với lỗi. Một vài dòng bị bỏ qua — xem chi tiết bên dưới:',
+    'login_success' => 'Đăng nhập thành công',
+    'login_error' => 'Tài khoản hoặc mật khẩu không đúng',
+    'account_locked' => 'Tài khoản của bạn đã bị khóa',
 ];
