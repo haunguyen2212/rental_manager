@@ -7,8 +7,8 @@
     <title>@yield('title')</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" type="image/png" href="{{ asset('images/logos/favicon.png') }}" />
-    <link rel="stylesheet" href="{{ asset('libs/select2/css/select2.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('libs/select2/css/select2-bootstrap-5-theme.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('libs/select2/dist/css/select2.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('libs/select2/dist/css/select2-bootstrap-5-theme.min.css') }}" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-confirm/dist/jquery-confirm.min.css">
     <link rel="stylesheet" href="{{ asset('css/styles.min.css') }}" />
@@ -74,7 +74,7 @@
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link justify-content-between"
-                                href="#">
+                                href="{{ route('admin.product.create') }}">
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="round-16 d-flex align-items-center justify-content-center">
                                         <i class="ti ti-circle"></i>
@@ -323,7 +323,7 @@
     <script src="{{ asset('libs/simplebar/dist/simplebar.js') }}"></script>
     <!-- solar icons -->
     <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
-    <script src="{{ asset('libs/select2/js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('libs/select2/dist/js/select2.full.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-confirm/dist/jquery-confirm.min.js"></script>
     <script src="{{ asset('js/admin/app.js') }}"></script>
