@@ -19,6 +19,32 @@ defined('VERSION') or define('VERSION', date('YmdHis'));
 
 defined('DATE_FORMAT_SQL') or define('DATE_FORMAT_SQL', 'Y-m-d');
 defined('DATE_FORMAT_VIEW') or define('DATE_FORMAT_VIEW', 'd/m/Y');
+defined('DATETIME_FORMAT_VIEW') or define('DATETIME_FORMAT_VIEW', 'd/m/Y H:i:s');
 
 defined('EXPORT_ALL') or define('EXPORT_ALL', 1);
 defined('EXPORT_BY_IDS') or define('EXPORT_BY_IDS', 2);
+
+defined('ACTIVITY_ICONS') or define('ACTIVITY_ICONS', [
+        'import' => [
+            'icon' => 'ti ti-file-import',
+            'color' => 'secondary',
+        ],
+        'create' => [
+            'icon' => 'ti ti-plus',
+            'color' => 'success',
+        ],
+        'update' => [
+            'icon' => 'ti ti-edit',
+            'color' => 'warning',
+        ],
+        'delete' => [
+            'icon' => 'ti ti-trash',
+            'color' => 'danger',
+        ],
+        'export' => [
+            'icon' => 'ti ti-file-export',
+            'color' => 'warning',
+        ],
+]);
+
+defined('MAX_RECENT_ACTIVITIES') or define('MAX_RECENT_ACTIVITIES', 20);

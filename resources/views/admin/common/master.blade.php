@@ -43,7 +43,7 @@
                 <span class="hide-menu">Trang chủ</span>
                 </li>
                 <li class="sidebar-item">
-                <a class="sidebar-link" href="./index.html" aria-expanded="false">
+                <a class="sidebar-link" href="{{route('admin.index')}}" aria-expanded="false">
                     <i class="ti ti-atom"></i>
                     <span class="hide-menu">Dashboard</span>
                 </a>
@@ -110,16 +110,16 @@
                 <li class="sidebar-item">
                     <a class="sidebar-link justify-content-between has-arrow" href="javascript:void(0)" aria-expanded="false">
                         <div class="d-flex align-items-center gap-3">
-                        <span class="d-flex">
-                            <i class="ti ti-shopping-cart"></i>
-                        </span>
-                        <span class="hide-menu">Đơn hàng</span>
+                            <span class="d-flex">
+                                <i class="ti ti-shopping-cart"></i>
+                            </span>
+                            <span class="hide-menu">Đơn hàng</span>
                         </div>
                     </a>
                     <ul aria-expanded="false" class="collapse first-level">
                         <li class="sidebar-item">
                             <a class="sidebar-link justify-content-between"
-                                href="#">
+                               href="{{ route('admin.order.pending') }}">
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="round-16 d-flex align-items-center justify-content-center">
                                         <i class="ti ti-circle"></i>
@@ -130,7 +130,7 @@
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link justify-content-between"
-                                href="#">
+                               href="#">
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="round-16 d-flex align-items-center justify-content-center">
                                         <i class="ti ti-circle"></i>
@@ -196,13 +196,13 @@
                     <span class="hide-menu">Lịch sử</span>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="./ui-buttons.html" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('admin.activity.index') }}" aria-expanded="false">
                         <i class="ti ti-history"></i>
                         <span class="hide-menu">Hoạt động</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="./ui-alerts.html" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('admin.mail.index') }}" aria-expanded="false">
                         <i class="ti ti-mail-forward"></i>
                         <span class="hide-menu">Gửi mail</span>
                     </a>

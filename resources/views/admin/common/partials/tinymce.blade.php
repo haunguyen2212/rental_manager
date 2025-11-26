@@ -1,2 +1,0 @@
-<script src="https://cdn.tiny.cloud/1/10blt7m64cdltpcrmtjprfmvhvtg83c6r6oout1rf0ljwkdb/tinymce/8/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous"></script>
-<script src="{{ asset('js/admin/tinymce.js') }}?v={{ VERSION }}"></script>

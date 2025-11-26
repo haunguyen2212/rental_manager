@@ -36,6 +36,16 @@ $(function(){
     }
 
     /**
+     * Handles click events for `.btn-refresh` buttons and reloads the page.
+     */
+    APP.refreshButton =  function () {
+        $('body').on('click', '.btn-refresh', function() {
+            APP.loading();
+            location.reload();
+        });
+    }
+
+    /**
      * Initializes all elements with the "select2" class using the Select2 plugin.
      */
     APP.select2 = function () {
@@ -568,6 +578,7 @@ $(function(){
 
 $(document).ready(function(){
     APP.linkButton();
+    APP.refreshButton();
     APP.setupAjax();
     APP.select2();
     APP.tooltip();

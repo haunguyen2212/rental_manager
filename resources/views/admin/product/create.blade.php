@@ -389,12 +389,6 @@
 @endpush
 
 @push('scripts')
-    @include('admin.common.partials.tinymce')
     <script src="{{ asset('js/admin/image-upload.js') }}"></script>
     <script src="{{ asset('js/admin/product/create.js') }}"></script>
-    <script>
-        $(document).ready(function(){
-            TINY_MCE.create('#description');
-        })
-    </script>
 @endpush

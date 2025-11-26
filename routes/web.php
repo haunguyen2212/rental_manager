@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\ActivityController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\MailController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\UserExcelController;
 use Illuminate\Support\Facades\Route;
@@ -29,4 +32,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin.auth', 'as' => 'admin.
     Route::delete('category', [CategoryController::class, 'destroy'])->name('category.destroy');
     // product
     Route::resource('product', ProductController::class);
+    // order
+    Route::get('order/pending', [OrderController::class, 'pending'])->name('order.pending');
+    // activity
+    Route::get('activity', [ActivityController::class, 'index'])->name('activity.index');
+    // mail
+    Route::get('mail', [MailController::class, 'index'])->name('mail.index');
 });
