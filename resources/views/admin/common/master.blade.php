@@ -196,7 +196,7 @@
                     <span class="hide-menu">Lịch sử</span>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('admin.activity.index') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('admin.activity_log.index') }}" aria-expanded="false">
                         <i class="ti ti-history"></i>
                         <span class="hide-menu">Hoạt động</span>
                     </a>

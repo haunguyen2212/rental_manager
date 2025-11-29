@@ -24,27 +24,37 @@ defined('DATETIME_FORMAT_VIEW') or define('DATETIME_FORMAT_VIEW', 'd/m/Y H:i:s')
 defined('EXPORT_ALL') or define('EXPORT_ALL', 1);
 defined('EXPORT_BY_IDS') or define('EXPORT_BY_IDS', 2);
 
-defined('ACTIVITY_ICONS') or define('ACTIVITY_ICONS', [
-        'import' => [
-            'icon' => 'ti ti-file-import',
-            'color' => 'secondary',
-        ],
+defined('ACTIVITY') or define('ACTIVITY', [
         'create' => [
+            'action' => 'create',
+            'action_text' => 'Tạo mới',
             'icon' => 'ti ti-plus',
-            'color' => 'success',
+            'color' => 'primary',
         ],
         'update' => [
+            'action' => 'update',
+            'action_text' => 'Cập nhật',
             'icon' => 'ti ti-edit',
             'color' => 'warning',
         ],
         'delete' => [
+            'action' => 'delete',
+            'action_text' => 'Xóa',
             'icon' => 'ti ti-trash',
             'color' => 'danger',
         ],
+        'import' => [
+            'action' => 'import',
+            'action_text' => 'Nhập dữ liệu',
+            'icon' => 'ti ti-file-import',
+            'color' => 'secondary',
+        ],
         'export' => [
+            'action' => 'export',
+            'action_text' => 'Xuất dữ liệu',
             'icon' => 'ti ti-file-export',
-            'color' => 'warning',
+            'color' => 'success',
         ],
 ]);
 
-defined('MAX_RECENT_ACTIVITIES') or define('MAX_RECENT_ACTIVITIES', 20);
+defined('MAX_RECENT_ACTIVITIES') or define('MAX_RECENT_ACTIVITIES', 50);

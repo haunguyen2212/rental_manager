@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Activity extends Model
+class ActivityLog extends Model
 {
-    protected $table = 'activities';
+    protected $table = 'activity_logs';
 
     protected $primaryKey = 'id';
 

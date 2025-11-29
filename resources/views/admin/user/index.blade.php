@@ -60,7 +60,7 @@
                                 <button type="button" class="btn btn-sm btn-danger btn-delete" data-id={{ $user->id ?? '' }} data-url="{{ route('admin.user.destroy') }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Xóa">
                                     <i class="ti ti-trash"></i>
                                 </button>
-                                <button type="button" class="btn btn-sm btn-success btn-edit link" 
+                                <button type="button" class="btn btn-sm btn-warning btn-edit link" 
                                     data-bs-toggle="tooltip" 
                                     data-bs-placement="top" 
                                     title="Chỉnh sửa"

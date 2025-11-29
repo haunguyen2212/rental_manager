@@ -3,17 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\ActivityRepository;
+use App\Repositories\ActivityLogRepository;
 use Illuminate\Http\Request;
 
-class ActivityController extends Controller
+class ActivityLogController extends Controller
 {
-    protected $activityRepository;
+    protected $activityLogRepository;
 
     public function __construct(
-        ActivityRepository $activityRepository
+        ActivityLogRepository $activityLogRepository
     ){
-        $this->activityRepository = $activityRepository;
+        $this->activityLogRepository = $activityLogRepository;
     }
 
     /**
@@ -25,7 +25,7 @@ class ActivityController extends Controller
     public function index(Request $request)
     {
         try{
-            $data['activities'] = $this->activityRepository->getRecentActivities(MAX_RECENT_ACTIVITIES);
+            $data['activities'] = $this->activityLogRepository->getRecentActivities(MAX_RECENT_ACTIVITIES);
             return view('admin.activity.index', $data);
         }
         catch(\Exception $e){

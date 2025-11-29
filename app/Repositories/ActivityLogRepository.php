@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 
-class ActivityRepository extends BaseRepository {
+class ActivityLogRepository extends BaseRepository {
 
     /**
      * Specify Model class name
@@ -13,7 +13,7 @@ class ActivityRepository extends BaseRepository {
      */
     function model()
     {
-        return "App\\Models\\Activity";
+        return "App\\Models\\ActivityLog";
     }
 
     public function getRecentActivities($limit = null){

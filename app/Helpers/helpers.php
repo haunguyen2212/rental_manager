@@ -21,4 +21,29 @@ if (!function_exists('describe_array')) {
 
         return '(' . implode($separator, $parts) . ')';
     }
+
+    /**
+     * Write activity log
+     *
+     * @param string $actionKey
+     * @param string $description
+     * @return bool
+     */
+    function write_activity_log($actionKey, $description = '')
+    {
+        $action = ACTIVITY[$actionKey] ?? null;
+
+        if (!$action) {
+            return false;
+        }
+
+        return app(\App\Repositories\ActivityLogRepository::class)->create([
+            'user_id'     => auth()->id() ?? null,
+            'user_name'   => auth()->user()->username ?? null,
+            'action'      => $action['action'],
+            'action_text' => $action['action_text'],
+            'description' => $description,
+            'ip_address'  => request()->ip(),
+        ]);
+    }
 }

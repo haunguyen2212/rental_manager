@@ -33,7 +33,12 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            dd($request->all());
+        }
+        catch(\Exception $e){
+            throw $e;
+        }
     }
 
     /**

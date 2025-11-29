@@ -20,8 +20,8 @@
             @foreach ($activities as $index => $activity)
                 <div class="timeline-item">
                     <div class="timeline-marker">
-                        <div class="timeline-icon bg-{{ ACTIVITY_ICONS[$activity->action]['color'] ?? '' }}-subtle">
-                            <i class="ti {{ ACTIVITY_ICONS[$activity->action]['icon'] ?? '' }} text-{{ ACTIVITY_ICONS[$activity->action]['color'] ?? '' }}"></i>
+                        <div class="timeline-icon bg-{{ ACTIVITY[$activity->action]['color'] ?? '' }}-subtle">
+                            <i class="ti {{ ACTIVITY[$activity->action]['icon'] ?? '' }} text-{{ ACTIVITY[$activity->action]['color'] ?? '' }}"></i>
                         </div>
                         @if($index < $activities->count() - 1)
                             <div class="timeline-line"></div>
@@ -35,14 +35,14 @@
                                         <img src="{{ $activity->user_avatar }}" alt="{{ $activity->user_name }}" class="rounded-circle" width="32" height="32">
                                     @else
                                         <div class="avatar-placeholder bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 14px; font-weight: 600;">
-                                            {{ mb_substr($activity->user_name, 0, 1) }}
+                                            {{ mb_strtoupper(mb_substr($activity->user_name, 0, 1)) }}
                                         </div>
                                     @endif
                                 </div>
                                 <div class="flex-grow-1">
                                     <h6 class="mb-0 fw-semibold">{{ $activity->user_name }}</h6>
                                     <small class="text-muted">
-                                        <span class="badge bg-{{ ACTIVITY_ICONS[$activity->action]['color'] ?? '' }}-subtle text-{{ ACTIVITY_ICONS[$activity->action]['color'] ?? '' }} me-2">
+                                        <span class="badge bg-{{ ACTIVITY[$activity->action]['color'] ?? '' }}-subtle text-{{ ACTIVITY[$activity->action]['color'] ?? '' }} me-2">
                                             {{ $activity->action_text }}
                                         </span>
                                         <i class="ti ti-clock me-1"></i>
@@ -52,7 +52,7 @@
                             </div>
                         </div>
                         <div class="timeline-body">
-                            <p class="mb-2">{{ $activity->description }}</p>
+                            <p class="mb-2">{!! $activity->description !!}</p>
                             <div class="timeline-meta d-flex align-items-center gap-3">
                                 <small class="text-muted">
                                     <i class="ti ti-map-pin me-1"></i>

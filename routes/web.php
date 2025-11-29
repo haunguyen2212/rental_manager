@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\ActivityController;
+use App\Http\Controllers\Admin\ActivityLogController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\MailController;
@@ -34,8 +34,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin.auth', 'as' => 'admin.
     Route::resource('product', ProductController::class);
     // order
     Route::get('order/pending', [OrderController::class, 'pending'])->name('order.pending');
-    // activity
-    Route::get('activity', [ActivityController::class, 'index'])->name('activity.index');
+    // activity log
+    Route::get('activity-log', [ActivityLogController::class, 'index'])->name('activity_log.index');
     // mail
     Route::get('mail', [MailController::class, 'index'])->name('mail.index');
 });
