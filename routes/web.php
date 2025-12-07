@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('admin/login', [AuthController::class, 'showLoginForm'])->name('admin.login.get');
 Route::post('admin/login', [AuthController::class, 'login'])->name('admin.login.post');
 Route::post('admin/logout', [AuthController::class, 'logout'])->name('admin.logout.post');
+Route::get('admin/forgot-password', [AuthController::class, 'showForgotPasswordForm'])->name('admin.forgot-password.get');
+Route::post('admin/forgot-password', [AuthController::class, 'forgotPassword'])->name('admin.forgot-password.post');
+Route::get('admin/forgot-password/success', [AuthController::class, 'showForgotPasswordSuccess'])->name('admin.forgot-password.success');
+Route::get('admin/reset-password', [AuthController::class, 'showResetPasswordForm'])->name('admin.reset-password.get');
+Route::get('admin/reset-password/error', [AuthController::class, 'showResetPasswordError'])->name('admin.reset-password.error');
+Route::get('admin/reset-password/success', [AuthController::class, 'showResetPasswordSuccess'])->name('admin.reset-password.success');
+Route::post('admin/reset-password', [AuthController::class, 'resetPassword'])->name('admin.reset-password.post');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin.auth', 'as' => 'admin.'], function(){ 
     Route::get('/', function () {

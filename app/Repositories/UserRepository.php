@@ -114,4 +114,12 @@ class UserRepository extends BaseRepository {
         }
         return $query->get();
     }
+
+    public function checkMailForgetPassword($email, $role_ids = []){
+        $query = $this->where('email', $email)->where('status', USER_STATUS_ACTIVE);
+        if(!empty($role_ids)){
+            $query->whereIn('role_id', $role_ids);
+        }
+        return $query->first();
+    }
 }

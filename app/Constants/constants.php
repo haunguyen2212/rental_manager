@@ -55,6 +55,15 @@ defined('ACTIVITY') or define('ACTIVITY', [
             'icon' => 'ti ti-file-export',
             'color' => 'success',
         ],
+        'reset_password' => [
+            'action' => 'reset_password',
+            'action_text' => 'Đổi mật khẩu',
+            'icon' => 'ti ti-key',
+            'color' => 'dark',
+        ],
 ]);
 
 defined('MAX_RECENT_ACTIVITIES') or define('MAX_RECENT_ACTIVITIES', 50);
+
+defined('SUPER_ADMIN') or define('SUPER_ADMIN', 1);
+defined('ADMIN') or define('ADMIN', 2);

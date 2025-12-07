@@ -25,7 +25,6 @@ $(function(){
             }, function (err){
                 if(err.status == 422){
                     APP.validate($form, err.responseJSON.errors);
-                    APP.alertDanger('Có lỗi xảy ra, vui lòng kiểm tra lại thông tin nhập vào');
                     APP.loaded();
                 }
                 else{

@@ -76,6 +76,39 @@
   color: red;
 }
 
+.brand-logo-text {
+  font-size: 1.75rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #4A47D6 0%, #615DFF 50%, #2BB5C7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+}
+
+.brand-logo-text::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(135deg, #4A47D6 0%, #615DFF 50%, #2BB5C7 100%);
+  transition: width 0.3s ease;
+}
+
+.brand-logo-subtitle {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #7C8FAC;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-top: -4px;
+}
+
 .select2-container--bootstrap-5 .select2-selection {
   border: 1px solid #DFE5EF !important;
   height: 38.6px !important;

@@ -39,7 +39,7 @@ if (!function_exists('describe_array')) {
 
         return app(\App\Repositories\ActivityLogRepository::class)->create([
             'user_id'     => auth()->id() ?? null,
-            'user_name'   => auth()->user()->username ?? null,
+            'user_name'   => auth()->user()->username ?? request()->ip() ?? null,
             'action'      => $action['action'],
             'action_text' => $action['action_text'],
             'description' => $description,

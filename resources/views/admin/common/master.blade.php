@@ -28,8 +28,9 @@
         <!-- Sidebar scroll-->
         <div>
             <div class="brand-logo d-flex align-items-center justify-content-between">
-            <a href="./index.html" class="text-nowrap logo-img">
-                <img src="{{ asset('images/logos/logo.svg') }}" alt="" />
+            <a href="{{ route('admin.index') }}" class="text-nowrap logo-img text-decoration-none d-flex flex-column align-items-start">
+                <span class="brand-logo-text">HavenBlue</span>
+                <span class="brand-logo-subtitle">SALES MANAGEMENT</span>
             </a>
             <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                 <i class="ti ti-x fs-6"></i>
@@ -291,20 +292,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div id="msg">
-                            <div class="alert customize-alert alert-dismissible text-success alert-light-success bg-success-subtle fade show remove-close-icon {{ session('success') ? '' : 'd-none' }}" id="alert-success" role="alert">
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                <div class="d-flex align-items-center  me-3 me-md-0">
-                                    <i class="ti ti-info-circle fs-5 me-2 text-success"></i>
-                                    <span class="message-text">{{ session('success') ?? '' }}</span>
-                                </div>
-                            </div>
-                            <div class="alert customize-alert alert-dismissible alert-light-danger bg-danger-subtle text-danger fade show remove-close-icon {{ session('error') ? '' : 'd-none' }}" id="alert-error" role="alert">
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                <div class="d-flex align-items-center  me-3 me-md-0">
-                                    <i class="ti ti-info-circle fs-5 me-2 text-danger"></i>
-                                    <span class="message-text">{{ session('error') ?? '' }}</span>
-                                </div>
-                            </div>
+                            @include('admin.common.partials.error_message')
                         </div>
                         @yield('content')
                     </div>
