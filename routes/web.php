@@ -3,7 +3,7 @@
 use App\Http\Controllers\Admin\ActivityLogController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\MailController;
+use App\Http\Controllers\Admin\MailLogController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\UserController;
@@ -43,6 +43,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin.auth', 'as' => 'admin.
     Route::get('order/pending', [OrderController::class, 'pending'])->name('order.pending');
     // activity log
     Route::get('activity-log', [ActivityLogController::class, 'index'])->name('activity_log.index');
-    // mail
-    Route::get('mail', [MailController::class, 'index'])->name('mail.index');
+    // mail log
+    Route::get('mail-log', [MailLogController::class, 'index'])->name('mail_log.index');
 });

@@ -24,7 +24,7 @@ class CategoryRepository extends BaseRepository {
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Support\Collection
      */
     public function searchListCategory($search, $paginate = PAGINATION){
-        $query = self::query();
+        $query = static::query();
         if(isset($search->name)){
             $query->where('name', 'like', '%'.$search->name.'%');
         }

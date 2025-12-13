@@ -11,20 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('product_variants', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('category_id');
-            $table->string('name');
-            $table->integer('type')->default(1)->comment('1:đơn,2:có biến thể');
-            $table->string('slug')->unique();
-            $table->string('sku')->unique()->nullable();
-            $table->text('description')->nullable();
-            $table->text('short_description')->nullable();
+            $table->unsignedBigInteger('product_id');
+            $table->string('sku', 30);
             $table->string('thumbnail')->nullable();
             $table->decimal('price', 15, 2)->default(0);
             $table->decimal('sale_price', 15, 2)->nullable();
             $table->integer('stock_quantity')->default(0);
-            $table->integer('status')->default(0)->comment('0:nháp,1:chưa công khai,2:công khai,3:tạm ngưng');
+            $table->boolean('status')->default(1);
             $table->dateTime('deleted_at')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
@@ -37,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('product_variants');
     }
 };

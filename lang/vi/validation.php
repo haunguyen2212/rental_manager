@@ -18,6 +18,35 @@ return [
         'numeric' => 'Vui lòng nhập :attribute không lớn hơn :max.',
         'file'    => 'Vui lòng tải lên :attribute không vượt quá :max KB.',
     ],
+    'min' => [
+        'string'  => 'Vui lòng nhập :attribute tối thiểu :min ký tự.',
+        'numeric' => 'Vui lòng nhập :attribute không nhỏ hơn :min.',
+        'file'    => 'Vui lòng tải lên :attribute tối thiểu :min KB.',
+    ],
+        'gt' => [
+        'numeric' => 'Vui lòng nhập :attribute lớn hơn :value.',
+        'file'    => 'Dung lượng :attribute phải lớn hơn :value KB.',
+        'string'  => ':attribute phải có nhiều hơn :value ký tự.',
+        'array'   => ':attribute phải có nhiều hơn :value phần tử.',
+    ],
+    'gte' => [
+        'numeric' => 'Vui lòng nhập :attribute lớn hơn hoặc bằng :value.',
+        'file'    => 'Dung lượng :attribute phải lớn hơn hoặc bằng :value KB.',
+        'string'  => ':attribute phải có ít nhất :value ký tự.',
+        'array'   => ':attribute phải có ít nhất :value phần tử.',
+    ],
+    'lt' => [
+        'numeric' => 'Vui lòng nhập :attribute nhỏ hơn :value.',
+        'file'    => 'Dung lượng :attribute phải nhỏ hơn :value KB.',
+        'string'  => ':attribute phải có ít hơn :value ký tự.',
+        'array'   => ':attribute phải có ít hơn :value phần tử.',
+    ],
+    'lte' => [
+        'numeric' => 'Vui lòng nhập :attribute nhỏ hơn hoặc bằng :value.',
+        'file'    => 'Dung lượng :attribute phải nhỏ hơn hoặc bằng :value KB.',
+        'string'  => ':attribute phải có nhiều nhất :value ký tự.',
+        'array'   => ':attribute phải có nhiều nhất :value phần tử.',
+    ],
     'between' => [
         'string'  => 'Vui lòng nhập :attribute có độ dài từ :min đến :max ký tự.',
         'numeric' => 'Vui lòng nhập :attribute có giá trị trong khoảng :min đến :max.',
@@ -39,4 +68,10 @@ return [
     'date_format' => 'Vui lòng nhập :attribute theo định dạng :format.',
     'before_or_equal' => 'Vui lòng nhập :attribute có ngày nhỏ hơn hoặc bằng :date.',
     'regex' => 'Định dạng :attribute không hợp lệ.',
+    'image_array' => [
+        'array' => 'Danh sách hình ảnh không hợp lệ.',
+        'image' => 'Có file tải lên không phải là hình ảnh.',
+        'mimes' => 'Có file tải lên không có định dạng jpg, png.',
+        'max'   => 'Có file tải lên có kích thước lớn 2MB.',
+    ],
 ];

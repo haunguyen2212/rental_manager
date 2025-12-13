@@ -5,22 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Product extends Model
+class ProductVariant extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'products';
+    protected $table = 'product_images';
 
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'name',
-        'type',
+        'product_id',
+        'image_url',
         'slug',
-        'description',
-        'short_description',
-        'image',
-        'status',
+        'sort_order',
         'created_by',
         'updated_by',
     ];

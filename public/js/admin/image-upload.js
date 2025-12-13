@@ -77,14 +77,24 @@ $(function () {
         }
 
         function handleMultiple(files) {
+            let validFiles = [];
             files.forEach(file => {
                 if (!validate(file)) return;
+                validFiles.push(file);
+            });
 
+            if (!validFiles.length) return;
+
+            let loaded = 0;
+            validFiles.forEach(file => {
                 let reader = new FileReader();
                 reader.onload = function (e) {
                     uploadedImages.push({ file, preview: e.target.result });
                     addItem(e.target.result, uploadedImages.length - 1);
-                    refreshInput();
+                    loaded++;
+                    if (loaded === validFiles.length) {
+                        refreshInput();
+                    }
                 };
                 reader.readAsDataURL(file);
             });

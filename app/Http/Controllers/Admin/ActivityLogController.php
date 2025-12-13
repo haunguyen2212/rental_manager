@@ -26,7 +26,7 @@ class ActivityLogController extends Controller
     {
         try{
             $data['activities'] = $this->activityLogRepository->getRecentActivities(MAX_RECENT_ACTIVITIES);
-            return view('admin.activity.index', $data);
+            return view('admin.activity_log.index', $data);
         }
         catch(\Exception $e){
             throw $e;

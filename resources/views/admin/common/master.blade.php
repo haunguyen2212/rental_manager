@@ -203,7 +203,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('admin.mail.index') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('admin.mail_log.index') }}" aria-expanded="false">
                         <i class="ti ti-mail-forward"></i>
                         <span class="hide-menu">Gửi mail</span>
                     </a>

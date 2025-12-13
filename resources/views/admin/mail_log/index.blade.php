@@ -15,7 +15,6 @@
         </div>
     </div>
 
-    @if(isset($mails) && $mails->count() > 0)
         <div class="table-responsive">
             <table class="table table-hover table-fixed mb-0 align-middle">
                 <thead class="text-dark">
@@ -44,13 +43,14 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @if(isset($mails) && $mails->count() > 0)
                     @foreach ($mails as $index => $mail)
                         <tr>
                             <td>{{ $index + 1 }}</td>
                             <td>
                                 <div>
                                     <div class="fw-semibold">{{ $mail->to_name }}</div>
-                                    <small class="text-muted">{{ $mail->to }}</small>
+                                    <small class="text-muted">{{ $mail->to_email }}</small>
                                 </div>
                             </td>
                             <td>
@@ -60,7 +60,7 @@
                             </td>
                             <td>
                                 <span class="badge bg-secondary-subtle text-secondary">
-                                    {{ $mail->template }}
+                                    {{ $mail->body }}
                                 </span>
                             </td>
                             <td>
@@ -77,7 +77,7 @@
                             <td>
                                 <span class="badge bg-success-subtle text-success">
                                     <i class="ti ti-check me-1"></i>
-                                    {{ $mail->status_text }}
+                                    {{ $mail->template }}
                                 </span>
                             </td>
                             <td>
@@ -99,17 +99,13 @@
                             </td>
                         </tr>
                     @endforeach
+                    @else
+                        <td class="text-center" colspan="7">Không tìm thấy dữ liệu</td>
+                    @endif
                 </tbody>
             </table>
         </div>
-    @else
-        <div class="text-center py-5">
-            <i class="ti ti-inbox fs-1 text-muted mb-3 d-block"></i>
-            <p class="text-muted mb-0">Không có email nào đã gửi</p>
-        </div>
-    @endif
-
-    @include('admin.mail.modal.detail_modal')
+    @include('admin.mail_log.modal.detail_modal')
 @endsection
 
 @push('scripts')

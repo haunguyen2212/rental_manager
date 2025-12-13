@@ -46,6 +46,31 @@ $(function(){
     }
 
     /**
+     * Scrolls to the top of the page or a specific element.
+     * @param {string} [selector=null] - The selector of the element to scroll to.
+     * @param {number} [offset=0] - The offset from the top of the element to scroll to.
+     */
+    APP.scrollTop = function (selector = null, offset = 0) {
+        if (!selector) {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            return;
+        }
+
+        const $el = document.querySelector(selector);
+        if (!$el) return;
+
+        const top = $el.getBoundingClientRect().top + window.pageYOffset - offset;
+
+        window.scrollTo({
+            top: top,
+            behavior: 'smooth'
+        });
+    }
+
+    /**
      * Initializes all elements with the "select2" class using the Select2 plugin.
      */
     APP.select2 = function () {
@@ -158,14 +183,33 @@ $(function(){
 
         $.each(errors, function(field, messages) {
             let $input = $form.find('[name="' + field + '"]');
+            if (!$input.length) {
+                $input = $form.find('[name="' + field + '[]"]');
+            }
 
             if ($input.length) {
-                $input.addClass('is-invalid');
-
-                if ($input.hasClass('select2')) {
+                if ($input.attr('type') === 'radio') {
+                    $input.addClass('is-invalid');
+                    let $firstRadio = $input.first();
+                    let $container = $firstRadio.closest('.d-flex');
+                    $container.after('<div class="invalid-feedback d-block">' + messages[0] + '</div>');
+                } else if ($input.attr('type') === 'file') {
+                    $input.addClass('is-invalid');
+                    let inputName = $input.attr('name') || '';
+                    let isMultiple = $input.attr('multiple') !== undefined || inputName.indexOf('[]') !== -1;
+                    let $container;
+                    if (isMultiple) {
+                        $container = $input.closest('.multiple-image-upload-wrapper');
+                    } else {
+                        $container = $input.closest('.image-upload-wrapper');
+                    }
+                    $container.after('<div class="invalid-feedback d-block">' + messages[0] + '</div>');
+                } else if ($input.hasClass('select2')) {
+                    $input.addClass('is-invalid');
                     $input.next('.select2-container')
                         .after('<div class="invalid-feedback d-block">' + messages[0] + '</div>');
                 } else {
+                    $input.addClass('is-invalid');
                     $input.after('<div class="invalid-feedback">' + messages[0] + '</div>');
                 }
             }
@@ -218,6 +262,7 @@ $(function(){
         if(message_success){
             $('#alert-success').removeClass('d-none');
             $('#alert-success').find('.message-text').html(message_success);
+            APP.scrollTop();
             APP.deleteCookie('message_success');
         }
     }
@@ -509,7 +554,19 @@ $(function(){
         }
         $form.find('input[type="file"]').each(function () {
             if (this.files.length > 0) {
-                formData.append(this.name, this.files[0]);
+                // Check if input has multiple attribute or name contains []
+                let inputName = $(this).attr('name') || '';
+                let isMultiple = $(this).attr('multiple') !== undefined || inputName.indexOf('[]') !== -1;
+                
+                if (isMultiple) {
+                    // Append all files for multiple file inputs
+                    for (let i = 0; i < this.files.length; i++) {
+                        formData.append(this.name, this.files[i]);
+                    }
+                } else {
+                    // Append only first file for single file inputs
+                    formData.append(this.name, this.files[0]);
+                }
             }
         });
         return formData;

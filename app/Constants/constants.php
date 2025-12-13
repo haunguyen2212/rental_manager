@@ -1,5 +1,8 @@
 <?php
 
+defined('FLAG_ON') or define('FLAG_ON', 1);
+defined('FLAG_OFF') or define('FLAG_OFF', 0);
+
 defined('USER_STATUS') or define('USER_STATUS', [
     1 => 'Hoạt động',
     2 => 'Bị khóa'
@@ -20,6 +23,7 @@ defined('VERSION') or define('VERSION', date('YmdHis'));
 defined('DATE_FORMAT_SQL') or define('DATE_FORMAT_SQL', 'Y-m-d');
 defined('DATE_FORMAT_VIEW') or define('DATE_FORMAT_VIEW', 'd/m/Y');
 defined('DATETIME_FORMAT_VIEW') or define('DATETIME_FORMAT_VIEW', 'd/m/Y H:i:s');
+defined('DATETIME_FORMAT_SQL') or define('DATETIME_FORMAT_SQL', 'Y-m-d H:i:s');
 
 defined('EXPORT_ALL') or define('EXPORT_ALL', 1);
 defined('EXPORT_BY_IDS') or define('EXPORT_BY_IDS', 2);
@@ -67,3 +71,6 @@ defined('MAX_RECENT_ACTIVITIES') or define('MAX_RECENT_ACTIVITIES', 50);
 
 defined('SUPER_ADMIN') or define('SUPER_ADMIN', 1);
 defined('ADMIN') or define('ADMIN', 2);
+
+defined('SINGLE_PRODUCT') or define('SINGLE_PRODUCT', 1);
+defined('VARIANT_PRODUCT') or define('VARIANT_PRODUCT', 2);
