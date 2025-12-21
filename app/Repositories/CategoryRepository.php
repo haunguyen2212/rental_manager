@@ -54,4 +54,18 @@ class CategoryRepository extends BaseRepository {
         return $this->find($id);
     }
 
+    /**
+     * @param bool $topNull
+     * @param string $nullLabel
+     * 
+     * @return array
+     */
+    public function getDropdown($topNull = true, $nullLabel = ''){
+        $data = $this->pluck('name', 'id')->toArray();
+        if ($topNull) {
+            $data = ['' => $nullLabel] + $data;
+        }
+        return $data;
+    }
+
 }

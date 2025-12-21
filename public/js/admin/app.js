@@ -182,9 +182,23 @@ $(function(){
         $form.find('.invalid-feedback').remove();
 
         $.each(errors, function(field, messages) {
-            let $input = $form.find('[name="' + field + '"]');
-            if (!$input.length) {
-                $input = $form.find('[name="' + field + '[]"]');
+            let $input = null;
+            
+            // Check if field is array format (e.g., "variant_name.0" or "price.1")
+            if (field.indexOf('.') !== -1) {
+                // Convert "field.0" to "field[0]" for array fields
+                let fieldParts = field.split('.');
+                let fieldName = fieldParts[0];
+                let index = fieldParts[1];
+                let arrayFieldName = fieldName + '[' + index + ']';
+                $input = $form.find('[name="' + arrayFieldName + '"]');
+            } else {
+                // Try exact match first
+                $input = $form.find('[name="' + field + '"]');
+                // If not found, try array format
+                if (!$input.length) {
+                    $input = $form.find('[name="' + field + '[]"]');
+                }
             }
 
             if ($input.length) {

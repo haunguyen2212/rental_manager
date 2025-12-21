@@ -90,9 +90,9 @@ $(function () {
                 let reader = new FileReader();
                 reader.onload = function (e) {
                     uploadedImages.push({ file, preview: e.target.result });
-                    addItem(e.target.result, uploadedImages.length - 1);
                     loaded++;
                     if (loaded === validFiles.length) {
+                        rebuild();
                         refreshInput();
                     }
                 };
@@ -102,7 +102,7 @@ $(function () {
 
         function addItem(src, index) {
             let col = $(`
-                <div class="col-12 col-md-4 mt-0">
+                <div class="col-12 col-md-4 mt-0 mb-3">
                     <div class="multiple-image-preview-item">
                         <img src="${src}" />
                         <div class="multiple-image-preview-overlay">
@@ -122,10 +122,29 @@ $(function () {
             });
 
             settings.previewGrid.append(col);
+        }
 
-            if (uploadedImages.length === 1) {
-                settings.uploadArea.addClass('d-none');
-                settings.previewContainer.removeClass('d-none');
+        function addMoreAreaToGrid() {
+            // Remove existing add-more-area from grid if exists
+            settings.previewGrid.find('.add-more-area-wrapper').remove();
+            
+            // Clone add-more-area (just the inner content, not the col wrapper)
+            let $addMoreClone = settings.addMoreArea.clone(true);
+            
+            // Wrap in col div and append to grid
+            let $wrapper = $('<div class="col-12 col-md-4 mt-0 mb-3 add-more-area-wrapper"></div>');
+            $wrapper.append($addMoreClone);
+            settings.previewGrid.append($wrapper);
+            
+            // Re-attach click event to cloned area
+            $addMoreClone.off('click').on('click', () => settings.fileInput.click());
+            
+            // Re-attach drag and drop events to cloned area
+            dragDrop($addMoreClone);
+            
+            // Hide original add-more-area row if it exists
+            if (settings.addMoreArea && settings.addMoreArea.closest('.row').length) {
+                settings.addMoreArea.closest('.row').addClass('d-none');
             }
         }
 
@@ -136,6 +155,16 @@ $(function () {
             if (uploadedImages.length === 0) {
                 settings.previewContainer.addClass('d-none');
                 settings.uploadArea.removeClass('d-none');
+                // Show original add-more-area row if exists
+                if (settings.addMoreArea && settings.addMoreArea.closest('.row').length) {
+                    settings.addMoreArea.closest('.row').removeClass('d-none');
+                }
+            } else {
+                // Show preview container and hide upload area
+                settings.uploadArea.addClass('d-none');
+                settings.previewContainer.removeClass('d-none');
+                // Add add-more-area to grid
+                addMoreAreaToGrid();
             }
         }
 
@@ -161,7 +190,7 @@ $(function () {
 
         function validate(file) {
             if (!file.type.match('image.*')) {
-                APP.popupAlert('File phải là JPG, PNG, GIF', {type: 'red'});
+                APP.popupAlert('File phải là JPG, PNG', {type: 'red'});
                 return false;
             }
             if (file.size > settings.maxSize) {

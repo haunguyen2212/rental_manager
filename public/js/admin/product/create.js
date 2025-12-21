@@ -23,11 +23,16 @@ $(function(){
     }
 
     PRODUCT_CREATE.submit = function () {
-        $('#btn-save').on('click', function () {
+        // Submit form with save_as_draft flag
+        function submitForm(isDraft) {
             APP.loading();
             let $form = $('#form-save');
             let url = $form.attr('action');
             let formData = APP.getFormData($form);
+            
+            // Add save_as_draft flag
+            formData.append('save_as_draft', isDraft ? '1' : '0');
+            
             APP.postAjax(url, formData, function(res){
                 if(res.success){
                     APP.setCookie('message_success', res.message);
@@ -52,7 +57,17 @@ $(function(){
                     APP.loaded();
                 }
             })
-        })
+        }
+        
+        // Button "Tạo mới" - status = PRODUCT_STATUS_PUBLIC
+        $('#btn-save').on('click', function () {
+            submitForm(false);
+        });
+        
+        // Button "Lưu nháp" - status = PRODUCT_STATUS_DRAFT
+        $('#btn-save-draft').on('click', function () {
+            submitForm(true);
+        });
     }
 
     PRODUCT_CREATE.handleProductType = function () {
@@ -67,6 +82,11 @@ $(function(){
     }
 
     PRODUCT_CREATE.toggleVariantMode = function (productType) {
+        let $form = $('#form-save');
+        // Clear all validation errors before toggling mode
+        $form.find('.is-invalid').removeClass('is-invalid');
+        $form.find('.invalid-feedback').remove();
+        
         let $addBtn = $('#btn-add-variant-group');
         let $variantGroups = $('.variant-group-item');
         
@@ -84,6 +104,10 @@ $(function(){
             // Show SKU in variant wrapper, hide SKU simple wrapper
             $('.sku-in-variant-wrapper').removeClass('d-none');
             $('.sku-simple-wrapper').addClass('d-none');
+            // Disable SKU in simple wrapper to prevent duplicate submission
+            $('.sku-simple-wrapper input').prop('disabled', true);
+            // Enable SKU in variant wrapper
+            $('.sku-in-variant-wrapper input').prop('disabled', false);
             // Add border and padding for variant groups
             $variantGroups.addClass('border p-3 rounded mb-4').removeClass('mb-0');
             // Convert names to array format if currently in simple format
@@ -101,6 +125,10 @@ $(function(){
             // Hide SKU in variant wrapper, show SKU simple wrapper
             $('.sku-in-variant-wrapper').addClass('d-none');
             $('.sku-simple-wrapper').removeClass('d-none');
+            // Disable SKU in variant wrapper to prevent duplicate submission
+            $('.sku-in-variant-wrapper input').prop('disabled', true);
+            // Enable SKU in simple wrapper
+            $('.sku-simple-wrapper input').prop('disabled', false);
             
             // Remove border and padding for simple product
             $variantGroups.removeClass('border p-3 rounded mb-4').addClass('mb-0');
@@ -129,6 +157,9 @@ $(function(){
             $newGroup.find('.variant-image-upload-area').removeClass('d-none');
             // Remove uploader initialization flag to allow re-initialization
             $newGroup.find('.variant-image-input').removeData('uploader-initialized');
+            // Clear validation errors from cloned group
+            $newGroup.find('.is-invalid').removeClass('is-invalid');
+            $newGroup.find('.invalid-feedback').remove();
             // Show variant header, variant name input and variant image (only visible in variant mode)
             $newGroup.find('.variant-header').removeClass('d-none');
             $newGroup.find('.variant-name-wrapper').removeClass('d-none');
@@ -137,6 +168,10 @@ $(function(){
             // Show SKU in variant wrapper, hide SKU simple wrapper
             $newGroup.find('.sku-in-variant-wrapper').removeClass('d-none');
             $newGroup.find('.sku-simple-wrapper').addClass('d-none');
+            // Disable SKU in simple wrapper to prevent duplicate submission
+            $newGroup.find('.sku-simple-wrapper input').prop('disabled', true);
+            // Enable SKU in variant wrapper
+            $newGroup.find('.sku-in-variant-wrapper input').prop('disabled', false);
             // Ensure border and padding are applied for variant groups
             $newGroup.addClass('border p-3 rounded mb-4').removeClass('mb-0');
             // Reset radio buttons - handle both name formats

@@ -74,3 +74,24 @@ defined('ADMIN') or define('ADMIN', 2);
 
 defined('SINGLE_PRODUCT') or define('SINGLE_PRODUCT', 1);
 defined('VARIANT_PRODUCT') or define('VARIANT_PRODUCT', 2);
+
+defined('PRODUCT_TYPE') or define('PRODUCT_TYPE', [
+    SINGLE_PRODUCT => 'Sản phẩm đơn giản',
+    VARIANT_PRODUCT => 'Sản phẩm có biến thể'
+]);
+
+defined('PRODUCT_STATUS_DRAFT') or define('PRODUCT_STATUS_DRAFT', 0);
+defined('PRODUCT_STATUS_UN_PUBLIC') or define('PRODUCT_STATUS_UN_PUBLIC', 1);
+defined('PRODUCT_STATUS_PUBLIC') or define('PRODUCT_STATUS_PUBLIC', 2);
+
+defined('PRODUCT_STATUS') or define('PRODUCT_STATUS', [
+    PRODUCT_STATUS_DRAFT => 'Nháp',
+    PRODUCT_STATUS_UN_PUBLIC => 'Không công khai',
+    PRODUCT_STATUS_PUBLIC => 'Công khai'
+]);
+
+defined('PRODUCT_STATUS_BADGE') or define('PRODUCT_STATUS_BADGE', [
+    PRODUCT_STATUS_DRAFT => 'bg-secondary-subtle text-secondary',
+    PRODUCT_STATUS_UN_PUBLIC => 'bg-warning-subtle text-warning',
+    PRODUCT_STATUS_PUBLIC => 'bg-success-subtle text-success'
+]);

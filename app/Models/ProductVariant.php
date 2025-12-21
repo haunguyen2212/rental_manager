@@ -9,15 +9,18 @@ class ProductVariant extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'product_images';
+    protected $table = 'product_variants';
 
     protected $primaryKey = 'id';
 
     protected $fillable = [
         'product_id',
-        'image_url',
-        'slug',
-        'sort_order',
+        'sku',
+        'thumbnail',
+        'price',
+        'sale_price',
+        'stock_quantity',
+        'status',
         'created_by',
         'updated_by',
     ];

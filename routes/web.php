@@ -38,7 +38,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin.auth', 'as' => 'admin.
     Route::resource('category', CategoryController::class)->except(['show', 'destroy']);
     Route::delete('category', [CategoryController::class, 'destroy'])->name('category.destroy');
     // product
-    Route::resource('product', ProductController::class);
+    Route::post('product/validate-search', [ProductController::class, 'validateSearch'])->name('product.validate_search');
+    Route::resource('product', ProductController::class)->except('destroy');
+    Route::delete('product', [ProductController::class, 'destroy'])->name('product.destroy');
     // order
     Route::get('order/pending', [OrderController::class, 'pending'])->name('order.pending');
     // activity log

@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="col-12">
+                <div class="col-12 col-md-6">
                     <label class="form-label required mb-3">Loại sản phẩm</label>
                     <div class="d-flex gap-4">
                         <div class="form-check">
@@ -36,6 +36,14 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-12 col-md-6">
+                    <label class="form-label mb-3">Danh mục</label>
+                    <select name="category_id" class="form-select select2" id="category-id">
+                        @foreach ($option['category'] as $key => $category)
+                            <option value="{{ $key }}">{{ $category }}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
             <div class="row mb-3">
                 <div class="col-12 col-md-6 mb-3">
@@ -46,7 +54,7 @@
                             <div class="image-upload-placeholder">
                                 <iconify-icon icon="solar:gallery-add-bold" style="font-size: 48px; color: #6c757d;"></iconify-icon>
                                 <p class="mt-3 mb-0 text-muted">Click để chọn ảnh hoặc kéo thả ảnh vào đây</p>
-                                <small class="text-muted">Chỉ chấp nhận file ảnh (JPG, PNG, GIF)</small>
+                                <small class="text-muted">Chỉ chấp nhận file ảnh (JPG, PNG)</small>
                             </div>
                         </div>
                         <div class="image-preview-container mt-0 d-none">
@@ -72,7 +80,7 @@
                             <div class="image-upload-placeholder">
                                 <iconify-icon icon="solar:gallery-add-bold" style="font-size: 48px; color: #6c757d;"></iconify-icon>
                                 <p class="mt-3 mb-0 text-muted">Click để chọn ảnh hoặc kéo thả ảnh vào đây</p>
-                                <small class="text-muted">Có thể chọn nhiều ảnh (JPG, PNG, GIF)</small>
+                                <small class="text-muted">Có thể chọn nhiều ảnh (JPG, PNG)</small>
                             </div>
                         </div>
                         <div class="multiple-image-preview-container d-none">
@@ -106,13 +114,13 @@
                                 <input type="text" name="variant_name[0]" class="form-control variant-name-input" value="">
                             </div>
                             <div class="col-12 col-md-6 mb-3 sku-in-variant-wrapper">
-                                <label class="form-label">Mã sản phẩm (SKU)</label>
+                                <label class="form-label required">Mã sản phẩm (SKU)</label>
                                 <input type="text" name="sku[0]" class="form-control" value="">
                             </div>
                         </div>
                         <div class="row mb-3 sku-simple-wrapper">
                             <div class="col-12 col-md-6 mb-3">
-                                <label class="form-label">Mã sản phẩm (SKU)</label>
+                                <label class="form-label required">Mã sản phẩm (SKU)</label>
                                 <input type="text" name="sku[0]" class="form-control" value="">
                             </div>
                         </div>
@@ -125,7 +133,7 @@
                                         <div class="image-upload-placeholder">
                                             <iconify-icon icon="solar:gallery-add-bold" style="font-size: 48px; color: #6c757d;"></iconify-icon>
                                             <p class="mt-3 mb-0 text-muted">Click để chọn ảnh hoặc kéo thả ảnh vào đây</p>
-                                            <small class="text-muted">Chỉ chấp nhận file ảnh (JPG, PNG, GIF)</small>
+                                            <small class="text-muted">Chỉ chấp nhận file ảnh (JPG, PNG)</small>
                                         </div>
                                     </div>
                                     <div class="image-preview-container mt-0 d-none">
@@ -195,6 +203,7 @@
             </div>
             <div class="d-flex justify-content-end mt-2">
                 <button type="button" class="btn btn-light me-1 link" data-url="{{ route('admin.product.index') }}">Quay lại</button>
+                <button type="button" class="btn btn-secondary me-1" id="btn-save-draft">Lưu nháp</button>
                 <button type="button" class="btn btn-primary" id="btn-save">Tạo mới</button>
             </div>
         </form>

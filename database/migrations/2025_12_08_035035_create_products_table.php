@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedInteger('category_id')->nullable();
             $table->string('name', 200);
-            $table->integer('type')->default(1)->comment('1:đơn,2:có biến thể');
-            $table->string('slug', 200);
+            $table->integer('type')->default(1)->nullable()->comment('1:đơn,2:có biến thể');
+            $table->string('slug', 200)->nullable();
             $table->text('description')->nullable();
             $table->text('short_description')->nullable();
             $table->string('image', 500)->nullable();
