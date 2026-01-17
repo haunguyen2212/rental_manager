@@ -452,3 +452,95 @@
 .product-simple-mode .btn-remove-group {
   display: none !important;
 }
+
+.product-thumbnail:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    border-color: #007bff !important;
+    z-index: 10;
+    position: relative;
+}
+
+#modal-view-image {
+    z-index: 9999;
+}
+
+#modal-view-image .modal-dialog {
+    margin: 0;
+    max-width: 100%;
+}
+
+#modal-view-image .modal-content {
+    background: transparent;
+    border: none;
+}
+
+#modal-view-image .modal-body {
+    min-height: 100vh;
+    padding: 60px 20px 20px;
+}
+
+#modal-view-image .image-container-wrapper {
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+#modal-image-preview {
+    max-width: 100%;
+    max-height: 90vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    animation: wpImageFadeIn 0.3s ease-out;
+    background: #fff;
+    padding: 8px;
+}
+
+#modal-view-image .btn-close {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    transition: all 0.2s ease;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+#modal-view-image .btn-close:hover {
+    background-color: #fff !important;
+    opacity: 1 !important;
+    transform: scale(1.1);
+}
+
+#modal-view-image .modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#modal-view-image.show .modal-backdrop.show {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+@keyframes wpImageFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Smooth modal transitions */
+#modal-view-image.modal.fade .modal-dialog {
+    transition: transform 0.3s ease-out;
+    transform: translateY(-50px);
+}
+
+#modal-view-image.modal.show .modal-dialog {
+    transform: translateY(0);
+}

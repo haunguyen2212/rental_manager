@@ -132,7 +132,7 @@
                             <td>{{ $product->name ?? '' }}</td>
                             <td>
                                 @if($product->image)
-                                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="rounded view-image product-thumbnail" data-image-url="{{ asset('storage/' . $product->image) }}" style="width: 60px; height: 60px; object-fit: cover; cursor: pointer; transition: all 0.3s ease; border: 2px solid #e0e0e0;">
                                 @else
                                     <div class="bg-light rounded d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                                         <i class="ti ti-image text-muted"></i>
@@ -195,6 +195,21 @@
         {{ $products->links() }}
     </div>
     @include('admin.product.modal.search_modal')
+    
+    <div class="modal fade" id="modal-view-image" tabindex="-1" aria-labelledby="viewImageModalLabel" aria-hidden="true" data-bs-backdrop="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content border-0 bg-transparent">
+                <div class="modal-header border-0 position-absolute top-0 end-0 z-3 bg-transparent">
+                    <button type="button" class="btn-close btn-close-white bg-white bg-opacity-75 rounded-circle p-2" data-bs-dismiss="modal" aria-label="Close" style="opacity: 1;"></button>
+                </div>
+                <div class="modal-body p-0 d-flex align-items-center justify-content-center" style="background-color: rgba(0, 0, 0, 0.6);">
+                    <div class="image-container-wrapper">
+                        <img src="" alt="Preview" id="modal-image-preview" class="modal-image-preview">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')

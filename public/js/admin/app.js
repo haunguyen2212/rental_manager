@@ -46,6 +46,38 @@ $(function(){
     }
 
     /**
+     * Handles click events for images with class 'view-image' to display them in a modal.
+     * The image URL should be stored in the 'data-image-url' attribute.
+     */
+    APP.viewImage = function () {
+        $('body').on('click', '.view-image', function(e) {
+            e.stopPropagation();
+            let imageUrl = $(this).data('image-url') || $(this).attr('src');
+            if (imageUrl) {
+                $('#modal-image-preview').attr('src', imageUrl);
+                let modalElement = document.getElementById('modal-view-image');
+                let modal = bootstrap.Modal.getOrCreateInstance(modalElement, {
+                    backdrop: true,
+                    keyboard: true
+                });
+                modal.show();
+            }
+        });
+        
+        // Close modal when clicking on backdrop (modal body, but not the image)
+        $(document).on('click', '#modal-view-image .modal-body', function(e) {
+            // Only close if clicking directly on modal-body, not on image or image wrapper
+            if ($(e.target).is('.modal-body')) {
+                let modalElement = document.getElementById('modal-view-image');
+                let modal = bootstrap.Modal.getInstance(modalElement);
+                if (modal) {
+                    modal.hide();
+                }
+            }
+        });
+    }
+
+    /**
      * Scrolls to the top of the page or a specific element.
      * @param {string} [selector=null] - The selector of the element to scroll to.
      * @param {number} [offset=0] - The offset from the top of the element to scroll to.
@@ -650,6 +682,7 @@ $(function(){
 $(document).ready(function(){
     APP.linkButton();
     APP.refreshButton();
+    APP.viewImage();
     APP.setupAjax();
     APP.select2();
     APP.tooltip();
